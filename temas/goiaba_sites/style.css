@@ -1,0 +1,73 @@
+
+*{ font-family: 'Arial'; font-size: 12px;}
+
+body{ margin: 0 auto; background: #DE767C;}
+
+h1{ font-size: 10em; color: #AD485B;}
+
+.mod{ height: 250px; border: 1px solid #AD485B;}
+
+.onepcssgrid-1000, .onepcssgrid-1200 {
+	margin: 0 auto;
+	padding: 0 0 0 1%; 
+}
+
+.onepcssgrid-1200 {
+	max-width: 1220px;
+}
+
+.onepcssgrid-1000 {
+	max-width: 1020px;
+}
+
+.onerow {
+	clear: both;
+	padding: 0 10px;
+}
+.col1, .col2, .col3, .col4, .col5, .col6, .col7, .col8, .col9, .col10, .col11, .col12 {
+	float: left;
+	margin: 0 3% 0 0;
+}
+
+.col1.last, .col2.last, .col3.last, .col4.last, .col5.last, .col6.last, .col7.last, .col8.last, .col9.last, .col10.last, .col11.last, .col12 {
+	margin: 0;
+}
+
+.col1 { width: 5.5%; }
+.col2 { width: 14%; }
+.col3 { width: 22.5%; }
+.col4 { width: 31%; }
+.col5 { width: 39.5%; }
+.col6 { width: 48%; }
+.col7 { width: 56.5%; }
+.col8 { width: 65%; }
+.col9 { width: 73.5%; }
+.col10 { width: 82%; }
+.col11 { width: 90.5%; }
+.col12 { width: 99%; margin: 0; }
+
+.col1 img, .col2 img, .col3 img, .col4 img, .col5 img, .col6 img, .col7 img, .col8 img, .col9 img, .col10 img, .col11 img, .col12 img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+@media all and (min-width: 1024px) {
+	.onepcssgrid-1000 {
+		max-width: 1000px;
+	}
+
+	.onepcssgrid-1000 .onerow {
+		padding: 0;
+	}
+}
+
+@media all and (max-width: 768px) {
+	.onerow {
+	}
+
+	.col1, .col2, .col3, .col4, .col5, .col6, .col7, .col8, .col9, .col10, .col11 {
+		float: none;
+		width: 99%;
+	}
+}
