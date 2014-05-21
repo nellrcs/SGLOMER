@@ -6,16 +6,16 @@
 	class Principal extends Template
 	{
 	
-            function __construct() {
-        
-            }
+        function __construct() {
+    
+        }
 
             
 		function extencoes($nome_diretorio)
 		{
 			$adir =  './'.$nome_diretorio;
                         
-                        $lista_nomes = array();
+            $lista_nomes = array();
                         
 			if ($local = opendir($adir)) 
 			{
@@ -34,33 +34,17 @@
 
 			    closedir($local);
 			}
-                        return $lista_nomes;
+
+            return $lista_nomes;
+
 		}
-
-
-
-
-		public static function lista_temas()
-		{
-			$mt = new Principal();
-                        $lista = $mt->extencoes('temas');
-                        return $lista;
-		}
-                
-                
-                public static function lista_modulos()
-                {
-                    	$mt = new Principal();
-                        $lista = $mt->extencoes('modulos');
-                        return $lista;
-                    
-                }     
-
-                
-
+		
+        public static function lista_modulos()
+        {
+        	$mt = new Principal();
+            $lista = $mt->extencoes('modulos');
+            return $lista;
+            
+        }
 	}
-
-
-
-
 ?>
