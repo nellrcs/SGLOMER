@@ -11,7 +11,7 @@
 
     //$tema = 'laranja_sorte';
     $tema = 'goiaba_sites';
-    
+    //$tema = 'rodrigo';
     
     //ADICIONA TEMA
     $tpl = new \raelgc\view\Template('./temas/'.$tema.'/index.html');
@@ -19,13 +19,13 @@
        
        
     //ADICIONAR MODULOS  
-    $tpl->addFile("MODULO1", "./modulos/lorem/estrutura.html");     
+    $tpl->addFile("MODULO1", "./modulos/ratos/estrutura.html");     
     $tpl->addFile("MODULO3", "./modulos/lorem/estrutura.html");     
     include 'modulos/lorem/lorem.php';
        
     if($tpl->exists("MODULO2"))
     {    
-        $tpl->addFile("MODULO2", "./modulos/pudin/estrutura.html");
+        $tpl->addFile("MODULO2", "./modulos/ratos/estrutura.html");
         //include 'modulos/pudin/pudin.php';  
     }    
     

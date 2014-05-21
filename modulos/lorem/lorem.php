@@ -17,7 +17,7 @@ class lorem extends Principal
         {
             $obj = new lorem();
             
-            $obj->titulo = "MODULO LOREM IMPSUM";
+            $obj->titulo = "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP";
             
             $obj->texto = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, est, et, ratione pariatur quo deserunt veritatis tenetur mollitia iste repellat alias. Consequuntur, illo laborum architecto delectus sint nihil id!";
             
