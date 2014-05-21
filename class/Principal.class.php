@@ -1,8 +1,5 @@
 <?php
-        include './class/raelgc/view/Template.php';
-        
-        use raelgc\view\Template;
-        
+
 	class Principal extends Template
 	{
 	
@@ -38,7 +35,7 @@
             return $lista_nomes;
 
 		}
-		
+
         public static function lista_modulos()
         {
         	$mt = new Principal();
