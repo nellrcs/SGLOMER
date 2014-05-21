@@ -10,13 +10,13 @@
         public static function caminho_diretorio(){
         	$caminho_diretorio = new Principal();
 
-        	return $caminho_diretorio->DIR_SISTEMA;
+        	return DIR_SISTEMA;
         }
 
         public static function caminho_url(){
         	$caminho_url = new Principal();
 
-        	return $caminho_url->URL_SISTEMA;
+        	return URL_SISTEMA;
         }
 
 		function extencoes($nome_diretorio)
