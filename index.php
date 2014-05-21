@@ -6,3 +6,4 @@
 	echo Principal::dir_sistema();
 
 ?>
+<h1>HOLA</h1>
