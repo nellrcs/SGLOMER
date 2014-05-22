@@ -9,7 +9,7 @@
 		}
 
 		public function criar_table($string){
-			$quer = mysql_query($string) or die(mysql_error())
+			$quer = mysql_query($string) or die(mysql_error());
 		}
 	}
 
