@@ -1,11 +1,14 @@
 <?php
+	include 'Conexao.class.php';
 
-	class Principal
+	class Principal extends Conexao
 	{
 	
         function __construct() {
     		include 'configura.php';
+    		$this->conecta();
         }
+
 
         public static function caminho_diretorio(){
         	$caminho_diretorio = new Principal();
