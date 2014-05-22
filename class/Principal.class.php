@@ -58,6 +58,11 @@
             
         }
 
-
+        public static function onde_estou()
+        {
+        	
+            echo 'PRINCIPAL';
+            
+        }
 	}
 ?>
