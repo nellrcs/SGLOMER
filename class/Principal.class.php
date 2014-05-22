@@ -61,7 +61,7 @@
         public static function onde_estou()
         {
         	
-            echo 'PRINCIPAL';
+            echo 'ESTOU NA CLASSE PRINCIPAL';
             
         }
 	}
