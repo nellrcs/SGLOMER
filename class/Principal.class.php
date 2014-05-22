@@ -5,7 +5,7 @@
 	{
 	
         function __construct() {
-    		include 'configura.php';
+    		include_once 'configura.php';
     		$this->conecta();
         }
 
