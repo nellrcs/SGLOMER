@@ -9,7 +9,7 @@
 	//DADOS PARA FAZER CONEXAO
 	define('DB_DRIVE','mysql');
 	define('DB_DATABASE','sglomer');
-	define('DB_HOSTNAME','locahost');
+	define('DB_HOSTNAME','localhost');
 	define('DB_USERNAME','root');
 	define('DB_PASSWORD','');
 	
