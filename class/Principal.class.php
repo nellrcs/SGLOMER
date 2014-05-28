@@ -64,5 +64,21 @@
             echo 'ESTOU NA CLASSE PRINCIPAL';
             
         }
+
+
+        public static function cria_diretorios_upload($new_folder='')
+        {
+            if(!is_dir("uploads")){
+                mkdir("uploads", 0777) or die("erro ao criar diretório com permissão.");
+            }
+
+            if($new_folder){
+                if(!is_dir("uploads/".$new_folder)){
+                    mkdir("uploads/".$new_folder, 0777) or die("erro ao criar sub-diretório com permissão.");
+                }
+            }
+        }
+
+
 	}
 ?>
