@@ -11,6 +11,12 @@
 		public function criar_table($string){
 			$quer = mysql_query($string) or die(mysql_error());
 		}
+
+		//a funcao criar_table nao faz sentido por que ela não eh especifica
+		public function slq_comando($string){
+			$quer = mysql_query($string) or die(mysql_error());
+		}	
+
 	}
 
 ?>
