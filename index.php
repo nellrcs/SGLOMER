@@ -29,7 +29,6 @@
 	//GERA TABELA TEXTOS
 	include ('modulos/textos/textos.php');
 
-	//PARA CONSTRUIR A TABELA
-	Textos::montar();
+
 
 ?>

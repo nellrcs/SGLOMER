@@ -17,6 +17,35 @@
 			$quer = mysql_query($string) or die(mysql_error());
 		}	
 
+		public function slq_comando_insert($string)
+		{
+			$quer =  mysql_query($string) or die(mysql_error());
+
+			$ultimo_id = mysql_insert_id();
+
+			return $ultimo_id;
+
+		}
+
+		public function slq_comando_select($string,$contar_linhas = 0)
+		{
+			
+			$quer =  mysql_query($string) or die(mysql_error());
+
+			if($contar_linhas == 1)
+			{
+				$retorno = mysql_num_rows($quer);				
+			}
+			else
+			{
+				$retorno = mysql_fetch_array($quer);
+			}	
+
+			return $retorno;
+
+		}
+
+
 	}
 
 ?>
