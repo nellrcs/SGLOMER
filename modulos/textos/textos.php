@@ -1,8 +1,8 @@
-<h1>EM DESENVOLVIMENTO TEXTOS - GEROU TABELA "textos"</h1>
+<h1>EM DESENVOLVIMENTO TEXTOS - (este modulo eh fixo); </h1>
 <?php
     class Tipo_textos
     {
-        public $ID;        
+        public $id;        
         public $id_pagina;      
         public $posicao;      
         public $tipo;      
@@ -12,20 +12,19 @@
 	class Textos extends Principal
 	{
 
-            
-
             public $sql = "CREATE TABLE IF NOT EXISTS `textos` (
                       `ID` int(11) NOT NULL AUTO_INCREMENT,
                       `id_pagina` int(11) NOT NULL,
                       `posicao` varchar(200) NOT NULL DEFAULT '',
                       `tipo` int(11) NOT NULL DEFAULT '0',
                       `texto` text NOT NULL,
+                      `traducao` text,
                       PRIMARY KEY (`id`)
                     ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";	
 
            function __construct()
            { 
-            
+                
            }
 
             /* MONTAR */
@@ -35,9 +34,7 @@
             }
 
 
-
-
-            function mod_texto( $id_pagina, $posicao, $tipo = 0, $texto = null)
+            function mod_texto( $id_pagina, $posicao, $tipo = 0, $texto = null, $traducao = null)
             {
                 //verifica se o bnaco existe
                 $this->montar();
@@ -45,7 +42,7 @@
                 //verifica se os campos nao existem ou os ou os cria
                 if( !$this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ", 1 ) )
                 {
-                    $string ="INSERT INTO `textos` (`ID`, `id_pagina`, `posicao`, `tipo`, `texto`) VALUES (NULL, '$id_pagina', '$posicao', '$tipo', '$texto')";
+                    $string ="INSERT INTO `textos` (`ID`, `id_pagina`, `posicao`, `tipo`, `texto`, `traducao`) VALUES (NULL, '$id_pagina', '$posicao', '$tipo', '$texto','$traducao' )";
 
                     $ultimo_id = $this->slq_comando_insert($string);
 
@@ -56,17 +53,15 @@
                     $retorno_dados = $this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ", false );
                 }    
 
-                return $retorno_dados;
+                return $retorno_dados['texto'];
 
             }
 
 
             function mod_texto_update($id_texto,$texto)
             {
-                $this->slq_comando("UPDATE textos SET texto='$texto' WHERE ID ='$ultimo_id'"); 
+                $this->slq_comando("UPDATE textos SET texto='$texto' WHERE ID ='$id_texto'"); 
             }
-
-
 
             function mod_texto_editar($dados)
             {
@@ -78,83 +73,106 @@
             }
 
 
-/*            function mod_text_lista($id_pagina)
+            function mod_text_lista($id_pagina,$posicao)
             {
-                $retorno_dados = $this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina'", 0 );
-
-                return $retorno_dados; 
-            }
-*/
-
-            function mod_text_lista($id_pagina)
-            {
-
 
                 $array = array();
 
-                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina'");
+                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' ");
 
                 while($row = mysql_fetch_array($sql))
                 {
                     $obj = new Tipo_textos();
 
-                    $obj->ID = $row["ID"];
+                    $obj->id = $row["ID"];
+
                     $obj->texto = $row["texto"];
+
+                    $obj->tipo = $row["tipo"];
 
                     $array[] = $obj;
                 }
 
                 return $array;
-    
+
 	       }
 
+
+           function campo_form($tipo,$value,$name)
+           {
+
+                switch ($tipo) 
+                {
+                    case '0': $campo = "<textarea name='$name' cols='30' rows='10'>$value</textarea>"; break;
+
+                    case '1': $campo = "<input type='text' value='$value' name='$name'>"; break;
+
+                    case '2': $campo = "Url:<input type='text' value='$value' name='$name'>"; break;
+
+                    default: $campo = "<input type='text' value='$value' name='$name'>"; break;
+                }
+                return $campo;
+
+           }
+
+
+           function mod_texto_backend($id_pagina)
+           {
+
+                if(!empty($_POST))
+                {   
+                    foreach($_POST as $key => $value) 
+                    {
+                        $this->mod_texto_update($key,$value);
+                    }
+                }  
+
+                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' GROUP BY posicao");
+
+                echo "<form action='' method='POST'>";
+
+                while( $row1 = mysql_fetch_array($sql) )
+                {  
+                  echo "<fieldset>";
+                  $sql2 = mysql_query("SELECT * FROM textos WHERE posicao='".$row1['posicao']."' ORDER BY tipo DESC");
+                    while($row = mysql_fetch_array($sql2))
+                    {
+                        echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
+                        echo "<br>";                        
+                    }
+                   echo "</fieldset>";
+                }
+
+                echo "<button>Salvar</button></form>";
+            }   
+
+
+            function traducao($id_do_texto)
+            {
+                 //le o jason com as traduçoes e altera   
+                //ainda falta definir habilita e desabilita
+            }
 }
+
 
 $bol = new Textos();
 
-$dados = array(
-    '1'=>'wqewqewq2',
-    '2'=>'rrrrr',
-    '3'=>'yyuyuyu'
-    );
-
-//$bol->mod_texto_editar($dados);
-
+//////////////// + F R O N T + /////////////////////////////
+//  este echo cria e mostra o campo no front do site     //
+//                                                      //
+///////////mod_texto('id da pagina','nome do local','tipos[0,1,2]','texto passado')/////
+echo $bol->mod_texto('23','CAMPO_MENU_1','1','String','{"pt":"texto"}');///
+//---------------------------------------------------////
 
 
+///////////////// + B A C K + ///////////////////////
+//                                                //
+// esta funcao cria um formulario                //
+//  com os campos para serem editados.          //
+//                                             //
+//////mod_texto_backend('id da pagina')//////////////
+$bol->mod_texto_backend('23');//////////////////////
+//---------------------------------------------////
 
-
-
- 
-
-
-
-
-
-// 0 0 0 0 0 0 0 FRONT 0 0 0 0 0 0 0 0 
-//esta eh a parte onde eh posicionado no site 
-$a = $bol->mod_texto('23','missao','1','Missao');
-$b = $bol->mod_texto('23','missao','0','');
-$c = $bol->mod_texto('23','valores','1','Valores');
-$d = $bol->mod_texto('23','valores','0','');
-
-
-echo"<pre>";
-//print_r($a);
-echo"</pre>";
-
-echo"<pre>";
-//print_r($b);
-echo"</pre>";
-
-echo"<pre>";
-//print_r($d);
-echo"</pre>";
-
-echo"<pre>";
-//print_r($c);
-echo"</pre>";
-
-
-	
 ?>
+
