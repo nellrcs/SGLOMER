@@ -18,13 +18,12 @@
 		Layout exclusivo
 		Inserção de conteúdo inicial
 		*Sistema de busca interna
-		Mapa de localização
+		*Mapa de localização
 		Formulário de contato
 		*Redes sociais (integração);
 		Imagens rotativas
 		Galeria de imagens ou vídeos
-		Integração ao Google
-		Integração ao Google Maps
+		
 		Integração Google Analytics
 		Definição de palavras chaves
 		Responsividade
@@ -64,15 +63,11 @@
 	//CONFIGURACAO
 
 	$sql_pk = mysql_query("SELECT * FROM plugins");
+
     while ($plugin = mysql_fetch_array($sql_pk )) 
     {
             define( "_" . strtoupper($plugin['nome']) . "_" , $plugin['status']);
     }
-
-
-	
-
-
 
 
 	if(Principal::se_plugin('social'))
@@ -84,6 +79,13 @@
 	{
 		include('plugins/buscainterna/buscainterna.php');
 	}
+
+	if(Principal::se_plugin('googlemaps'))
+	{
+		include('plugins/googlemaps/googlemaps.php');
+	}
+
+
 
 
 	//CADA PAGINA TERA UM ID
