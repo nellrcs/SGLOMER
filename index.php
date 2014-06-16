@@ -61,8 +61,11 @@
 
 
 	//CONFIGURACAO
-
+	
+	//INICIALIZAR PLUGINS JUNTO COM O SISTEMA
+	Principal::montar_plugins();
 	$sql_pk = mysql_query("SELECT * FROM plugins");
+	
 
     while ($plugin = mysql_fetch_array($sql_pk )) 
     {

@@ -1,17 +1,8 @@
 <?php
 		$principal = new Principal();
 
-    	$sql_plugin = "CREATE TABLE IF NOT EXISTS `plugins` (
-          `ID` int(11) NOT NULL AUTO_INCREMENT,
-          `nome` text NOT NULL,
-          `status` text NOT NULL DEFAULT '',
-          PRIMARY KEY (`ID`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";	
-
-		$principal->slq_comando($sql_plugin);
-
-
-
+		$principal->montar_plugins();
+		
 		/// ! AVISO ISSO NÃO ESTA BEM FEITO E NÃO EH SEGURO, FAVOR MUDAR MUDAR...
 		if(!empty($_GET['instalar']))
 		{

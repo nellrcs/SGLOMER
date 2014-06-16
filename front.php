@@ -27,6 +27,10 @@ if(Principal::se_plugin('googlemaps'))
 	echo "<h3>Plugin googlemaps</h3>";
 	//hghjghghjghj
 
+	$googlemaps = new Googlemaps($id_desta_pagina);
+
+	$googlemaps->define_insere_googlemaps('googlemaps');
+
 }
 
 

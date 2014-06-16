@@ -66,6 +66,19 @@
             return $lista;     
         }
 
+        public static function montar_plugins()
+        {
+            $mt = new Principal();
+            $sql_plugin = "CREATE TABLE IF NOT EXISTS `plugins` (
+              `ID` int(11) NOT NULL AUTO_INCREMENT,
+              `nome` text NOT NULL,
+              `status` text NOT NULL DEFAULT '',
+              PRIMARY KEY (`ID`)
+            ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";  
+
+            $mt->slq_comando($sql_plugin);  
+        }
+
         public static function onde_estou()
         {
         	

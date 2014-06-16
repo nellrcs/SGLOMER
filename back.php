@@ -16,6 +16,13 @@ if(Principal::se_plugin('buscainterna'))
 	echo "<h3>Plugin Busa intena</h3>";
 }
 
+if(Principal::se_plugin('googlemaps'))
+{
+	$googlemaps = new Googlemaps($id_desta_pagina);
+	$googlemaps->googlemaps_backend();
+	echo "<h3>Plugin Google Maps</h3>";
+}
+
 
 
 echo "<button>Salvar</button></form>";
