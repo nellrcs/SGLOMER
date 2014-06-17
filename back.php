@@ -19,7 +19,7 @@ if(Principal::se_plugin('social'))
 
 if(Principal::se_plugin('buscainterna'))
 {
-	echo "<h3>Plugin Busa intena</h3>";
+	echo "<h3>Plugin Busca interna</h3>";
 }
 
 if(Principal::se_plugin('googlemaps'))
