@@ -6,19 +6,24 @@
 	<title>Modulos</title>
 </head>
 <body>
+<br>
+<a href="?pg=front" class="btn btn-primary btn-lg">FRONT</a>
+<a href="?pg=back" class="btn btn-default btn-lg">BACK</a>
+<a href="?pg=plugins" class="btn btn-danger btn-lg">PLUGINS</a>
+
+
 <?php
 	require_once './class/Principal.class.php';
 	/*
 		Layout exclusivo
 		Inserção de conteúdo inicial
-		Sistema de busca interna
-		Mapa de localização
+		*Sistema de busca interna
+		*Mapa de localização
 		Formulário de contato
-		Redes sociais (integração);
+		*Redes sociais (integração);
 		Imagens rotativas
 		Galeria de imagens ou vídeos
-		Integração ao Google
-		Integração ao Google Maps
+		
 		Integração Google Analytics
 		Definição de palavras chaves
 		Responsividade
@@ -42,34 +47,76 @@
 
 	//include './controle/estrutura.php';
 
-	//CONFIGURACAO DO SITE //
-	
-
+	//CONFIGURACAO DO SITE //	
 	$diretorio_total = Principal::caminho_diretorio();
 
 	//CRIA PASTA CENTRAL DE UPLOAD "uploads"
 	Principal::cria_diretorios_upload();
 
-	//GERA TABELA SLIDER
-	include ('modulos/banner/banner.php');
-
-	//GERA TABELA NEWSLETTER
-	include ('modulos/news/news.php');
-
-	//GERA TABELA TRABALHE CONOSCO
-	include ('modulos/trabalhe_conosco/trabalhe_conosco.php');
-
-	//GERA TABELA ADMIN
-	include ('modulos/admin/admin.php');
-
-	//GERA TABELA ADMIN
-	include ('modulos/galeria/galeria.php');
-
-	//GERA TABELA REPRESENTANTES
-	include ('modulos/representantes/representantes.php');
-
-	//GERA TABELA TEXTOS
+	//INCLUI MODULO FIXO TEXTOS
 	include ('modulos/textos/textos.php');
+
+	include ('modulos/formularios/formularios.php');
+
+	//INCLUIR TODOS OS  PLUGINS
+
+
+	//CONFIGURACAO
+	
+	//INICIALIZAR PLUGINS JUNTO COM O SISTEMA
+	Principal::montar_plugins();
+	$sql_pk = mysql_query("SELECT * FROM plugins");
+	
+
+    while ($plugin = mysql_fetch_array($sql_pk )) 
+    {
+            define( "_" . strtoupper($plugin['nome']) . "_" , $plugin['status']);
+    }
+
+
+	if(Principal::se_plugin('social'))
+	{
+		include('plugins/social/social.php');
+	}
+
+	if(Principal::se_plugin('buscainterna'))
+	{
+		include('plugins/buscainterna/buscainterna.php');
+	}
+
+	if(Principal::se_plugin('googlemaps'))
+	{
+		include('plugins/googlemaps/googlemaps.php');
+	}
+
+
+
+
+	//CADA PAGINA TERA UM ID
+	$id_desta_pagina = 15;
+
+	//TEMPORARIO PAR TESTE
+	if (!empty($_GET['pg'])) 
+	{
+		switch ($_GET['pg']) 
+		{
+			case 'front':
+				include 'front.php';
+			break;
+			
+			case 'back':
+				include 'back.php';
+			break;
+
+			case 'plugins':
+				include 'plugins.php';
+			break;	
+
+			default:
+				include 'front.php';
+			break;
+		}
+	}
 
 ?>
 

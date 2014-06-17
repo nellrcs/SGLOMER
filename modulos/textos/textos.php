@@ -1,4 +1,3 @@
-<h1>EM DESENVOLVIMENTO TEXTOS - (este modulo eh fixo); </h1>
 <?php
     class Tipo_textos
     {
@@ -19,7 +18,7 @@
                       `tipo` int(11) NOT NULL DEFAULT '0',
                       `texto` text NOT NULL,
                       `traducao` text,
-                      PRIMARY KEY (`id`)
+                      PRIMARY KEY (`ID`)
                     ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";	
 
            function __construct()
@@ -56,6 +55,30 @@
                 return $retorno_dados['texto'];
 
             }
+
+
+
+            function remove_mod_texto( $id_pagina, $posicao, $tipo = 0, $texto = null, $traducao = null)
+            {
+                //verifica se o bnaco existe
+                $this->montar();
+
+                //verifica se os campos nao existem ou os ou os cria
+                if( !$this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ", 1 ) )
+                {
+                    $string = "SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ";
+
+                    $this->slq_comando($string);
+
+                    return true;
+                }
+                else
+                {
+                    return true;
+                }    
+
+            }
+
 
 
             function mod_texto_update($id_texto,$texto)
@@ -116,7 +139,7 @@
            }
 
 
-           function mod_texto_backend($id_pagina)
+           function mod_texto_backend($id_pagina,$ini_pocicao = null)
            {
 
                 if(!empty($_POST))
@@ -129,7 +152,7 @@
 
                 $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' GROUP BY posicao");
 
-                echo "<form action='' method='POST'>";
+                
 
                 while( $row1 = mysql_fetch_array($sql) )
                 {  
@@ -137,13 +160,33 @@
                   $sql2 = mysql_query("SELECT * FROM textos WHERE posicao='".$row1['posicao']."' ORDER BY tipo DESC");
                     while($row = mysql_fetch_array($sql2))
                     {
-                        echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
-                        echo "<br>";                        
+
+                        if($ini_pocicao)
+                        {
+                            $pos = explode('_', $row1['posicao']);
+
+                            $novo = $pos[0].'_'.$pos[1];
+
+                            if($novo == $ini_pocicao)
+                            {
+                                echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
+
+                                echo "<br>";  
+                            }    
+
+                        }
+                        else
+                        {    
+
+                            echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
+
+                            echo "<br>";    
+                        }                    
                     }
                    echo "</fieldset>";
                 }
 
-                echo "<button>Salvar</button></form>";
+                
             }   
 
 
@@ -155,13 +198,13 @@
 }
 
 
-$bol = new Textos();
+$bol = new Textos(23);
 
 //////////////// + F R O N T + /////////////////////////////
 //  este echo cria e mostra o campo no front do site     //
 //                                                      //
 ///////////mod_texto('id da pagina','nome do local','tipos[0,1,2]','texto passado')/////
-echo $bol->mod_texto('23','CAMPO_MENU_1','1','String','{"pt":"texto"}');///
+//echo $bol->mod_texto('23','CAMPO_MENU_1','1','String','{"pt":"texto"}');///
 //---------------------------------------------------////
 
 
@@ -171,7 +214,7 @@ echo $bol->mod_texto('23','CAMPO_MENU_1','1','String','{"pt":"texto"}');///
 //  com os campos para serem editados.          //
 //                                             //
 //////mod_texto_backend('id da pagina')//////////////
-$bol->mod_texto_backend('23');//////////////////////
+//$bol->mod_texto_backend('23');//////////////////////
 //---------------------------------------------////
 
 ?>
