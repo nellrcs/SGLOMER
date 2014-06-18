@@ -1,5 +1,3 @@
-
-
 <?php
 if(Principal::se_plugin('social'))
 {
@@ -30,10 +28,17 @@ if(Principal::se_plugin('googlemaps'))
 	$googlemaps = new Googlemaps($id_desta_pagina);
 
 	$googlemaps->define_insere_googlemaps('googlemaps');
-
 }
 
 
 
+if(Principal::se_plugin('chatonline'))
+{
+	echo "<h3>Plugin Chatonline</h3>";
+	//hghjghghjghj
 
+	$chatonline = new Chatonline($id_desta_pagina);
+
+	$chatonline->define_insere_chatonline('chatonline');
+}
 ?>

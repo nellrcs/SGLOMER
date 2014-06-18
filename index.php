@@ -89,6 +89,11 @@
 		include('plugins/googlemaps/googlemaps.php');
 	}
 
+	if(Principal::se_plugin('chatonline'))
+	{
+		include('plugins/chatonline/chatonline.php');
+	}
+
 
 
 
