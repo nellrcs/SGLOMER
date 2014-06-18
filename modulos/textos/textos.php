@@ -41,7 +41,7 @@
                 //verifica se os campos nao existem ou os ou os cria
                 if( !$this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ", 1 ) )
                 {
-                    $string ="INSERT INTO `textos` (`ID`, `id_pagina`, `posicao`, `tipo`, `texto`, `traducao`) VALUES (NULL, '$id_pagina', '$posicao', '$tipo', '$texto','$traducao' )";
+                    $string ="INSERT INTO `textos` (`ID`, `id_pagina`, `posicao`, `tipo`, `texto`, `traducao`) VALUES (NULL, '$id_pagina', '$posicao', '$tipo', '".addslashes($texto)."','$traducao' )";
 
                     $ultimo_id = $this->slq_comando_insert($string);
 
@@ -83,7 +83,7 @@
 
             function mod_texto_update($id_texto,$texto)
             {
-                $this->slq_comando("UPDATE textos SET texto='$texto' WHERE ID ='$id_texto'"); 
+                $this->slq_comando("UPDATE textos SET texto='".addslashes($texto)."' WHERE ID ='$id_texto'"); 
             }
 
             function mod_texto_editar($dados)
@@ -156,7 +156,6 @@
 
                 while( $row1 = mysql_fetch_array($sql) )
                 {  
-                  echo "<fieldset>";
                   $sql2 = mysql_query("SELECT * FROM textos WHERE posicao='".$row1['posicao']."' ORDER BY tipo DESC");
                     while($row = mysql_fetch_array($sql2))
                     {
@@ -183,7 +182,6 @@
                             echo "<br>";    
                         }                    
                     }
-                   echo "</fieldset>";
                 }
 
                 
