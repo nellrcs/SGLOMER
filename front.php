@@ -41,4 +41,15 @@ if(Principal::se_plugin('chatonline'))
 
 	$chatonline->define_insere_chatonline('chatonline');
 }
+
+if(Principal::se_plugin('banner'))
+{
+	echo "<h3>Plugin Banner</h3>";
+
+	$banner = new Banner($id_desta_pagina);
+
+	$banner->define_insere_banner('aaa3',8 );
+}
+
+
 ?>

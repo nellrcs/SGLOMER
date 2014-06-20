@@ -56,6 +56,8 @@
 	//INCLUI MODULO FIXO TEXTOS
 	include ('modulos/textos/textos.php');
 
+	include ('modulos/imagem/imagem.php');
+
 	include ('modulos/formularios/formularios.php');
 
 	//INCLUIR TODOS OS  PLUGINS
@@ -94,6 +96,10 @@
 		include('plugins/chatonline/chatonline.php');
 	}
 
+	if(Principal::se_plugin('banner'))
+	{
+		include('plugins/banner/banner.php');
+	}
 
 
 

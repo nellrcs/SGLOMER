@@ -6,6 +6,7 @@
   Principal::cria_diretorios_upload();
 
   include ('modulos/textos/textos.php');
+  include ('modulos/imagem/imagem.php');
 
 
   //include ('modulos/formularios/formularios.php');
@@ -35,6 +36,17 @@
     include('plugins/googlemaps/googlemaps.php');
   }
 
+  if(Principal::se_plugin('chatoline'))
+  {
+    include('plugins/chatoline/chatoline.php');
+  }
+
+  if(Principal::se_plugin('banner'))
+  {
+    include('plugins/banner/banner.php');
+  }
+
+
   //ID DA INDEX
   $id_desta_pagina = 15;
 ?>
@@ -47,11 +59,14 @@
 </head>
 <body>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="http://malsup.github.io/jquery.cycle.all.js"></script>
 <link href="http://balakumar.in/lab/git-theme/stylesheets/style.css" rel="stylesheet" media="all">
 <link href="http://balakumar.in/lab/git-theme/stylesheets/fonts.css" rel="stylesheet" media="all">
 <link href="http://balakumar.in/lab/git-theme/stylesheets/animate.css" rel="stylesheet" media="all">
 <link rel="stylesheet" type="text/css" href="paginas_01/css/style.css">
   
+
+
 <header> <a href="#" class="fork">fork me</a>
   <div class="row">
     <div class="head">
