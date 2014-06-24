@@ -58,12 +58,47 @@
        	{
        		
 
-       		$sql = mysql_query($query);
+       		$sql = mysql_query("SELECT * FROM padrao_formulario WHERE id_posicao='AAAAA' AND id_pagina='15' ORDER BY ordem ASC");
 
 
+       		while($ln = mysql_fetch_object($sql)){
 
 
-       		//return $campos;
+       			switch($ln->tipo){
+       				case 'input':
+       					echo '<div>';
+       					echo '<span>'.$ln->label.'</span>';
+       					echo '<input type="text" name="'.$ln->name.'" maxlength="'.$ln->maxlenth.'" required />';
+       					echo '</div>';
+       				break;
+       				case 'select':
+       					echo '<div>';
+       					echo '<span>'.$ln->label.'</span>';
+       					//var_dump(explode(':',$ln->opcoes_json));
+       					$var = $ln->opcoes_json;
+       					//$var2 = json_encode($var);
+       					//$var3 = json_decode($var);
+       					var_dump($var);
+       					echo '<select name="'.$ln->name.'" required>';
+       					
+       					foreach($var as $chave => $value){
+       						echo '<option value="'.$chave.'">'.$value.'</option>';
+       					}
+       					echo '</select>';
+       					echo '</div>';
+       				break;
+       				case 'textarea':
+       					echo '<div>';
+       					echo '<span>'.$ln->label.'</span>';
+       					echo '<textarea name="'.$ln->name.'"></textarea>';
+       					echo '</div>';
+       				break;
+       			}
+
+
+       		}
+
+       		//return $sql;
 
        	}
 
@@ -155,7 +190,7 @@
 			 }
 			 else
 			 {
-			 	echo   $this->slq_comando_select("SELECT * FROM padrao_formulario WHERE id_posicao='$nome_posicao' AND id_pagina='$id_pagina'");	
+			 	echo $this->slq_comando("SELECT * FROM padrao_formulario WHERE id_posicao='$nome_posicao' AND id_pagina='$id_pagina'");	
 
 			 }
        	}
@@ -169,7 +204,7 @@
 	//FRONT
 	$for->define_insere_formulario(15,'AAAAA');
 
-
+	$for->slq_monta_form('aa');
 
 
 

@@ -108,6 +108,10 @@
 			case 'front':
 				include 'front.php';
 			break;
+
+			case 'front2':
+				include 'front2.php';
+			break;
 			
 			case 'back':
 				include 'back.php';
