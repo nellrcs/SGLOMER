@@ -2,7 +2,11 @@
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+
+<?php if(isset($_GET['Secao'])){$Sec = $_GET['Secao'];}else{$Sec = "";} ?>
+
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -24,9 +28,9 @@
 			<h1 id="title">h1#title</h1>
 			<nav>
 				<ul>
-					<li><a href="#">nav ul li a</a></li>
-					<li><a href="#">nav ul li a</a></li>
-					<li><a href="#">nav ul li a</a></li>
+					<li><a href="Inicial.html">Home</a></li>
+					<li><a href="quem_somos.html">Quem somos</a></li>
+					<li><a href="contato.html">Contato</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -34,30 +38,14 @@
 	<div id="main-container">
 		<div id="main" class="wrapper clearfix">
 			
-			<article>
-				<header>
-					<h1>article header h1</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec.</p>
-				</header>
-				<section>
-					<h2>article section h2</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
-				</section>
-				<section>
-					<h2>article section h2</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
-				</section>
-				<footer>
-					<h3>article footer h3</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor.</p>
-				</footer>
-			</article>
-			
-			<aside>
-				<h3>aside</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices.</p>
-			</aside>
-			
+			<?php
+      	   		if(($Sec == "") || ($Sec == "Inicial")){
+      	   			include ("home.php");
+      	   		}else{
+                	include ("secao.php");
+            	}
+            ?>
+
 		</div> <!-- #main -->
 	</div> <!-- #main-container -->
 
