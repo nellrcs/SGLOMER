@@ -66,7 +66,7 @@
             return $lista;     
         }
 
-        public static function montar_plugins()
+/*        public static function montar_plugins()
         {
             $mt = new Principal();
             $sql_plugin = "CREATE TABLE IF NOT EXISTS `plugins` (
@@ -77,14 +77,8 @@
             ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";  
 
             $mt->slq_comando($sql_plugin);  
-        }
+        }*/
 
-        public static function onde_estou()
-        {
-        	
-            echo 'ESTOU NA CLASSE PRINCIPAL';
-            
-        }
 
 
         public static function cria_diretorios_upload($new_folder='')
@@ -100,22 +94,21 @@
             }
         }
 
-
+/*
         public static function se_plugin($nome_plugin)
         {
 
+             if(defined( "_" . strtoupper($nome_plugin) . "_" ))
+               {
+                    $estado = constant( "_" . strtoupper($nome_plugin) . "_" );
+                    return $estado;
+               } 
+               else
+               {
+                    return FALSE;
+               } 
 
-         if(defined( "_" . strtoupper($nome_plugin) . "_" ))
-           {
-                $estado = constant( "_" . strtoupper($nome_plugin) . "_" );
-
-                return $estado;
-           } 
-           else
-           {
-                return FALSE;
-           } 
-        }
+        }*/
 
 
 	}

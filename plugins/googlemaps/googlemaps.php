@@ -1,13 +1,18 @@
 <?php
-	
+	class Googlemaps_tipos
+	{
+		public $nome_posicao_plugin;
+	}
+
+
 	class Googlemaps extends Principal
 	{
 
 			function Googlemaps($id_pagina)
 			{	
 				$this->id_pagina = $id_pagina;
+				$this->montar_googlemaps();
 			}
-
 
 			public function montar_googlemaps()
 			{
@@ -21,80 +26,47 @@
 			}
 
 
-			public function lista_googlemaps()
-			{
-				$this->montar_googlemaps();
-
-				$bol = new Textos();
-
-				$sql = mysql_query("SELECT * FROM googlemaps");
-
-                while($row = mysql_fetch_array($sql))
-                {
-
-					$bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$row["ID"],'1',$row["nome"],'');	
-
-					echo "<div>";
-					echo $bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$row["ID"],'0','script','');	
-					echo "</div>";
-
-
-                }
-
-			}
-
-			//O plugin eh adicionado da pelo painel
-			public function insere_googlemaps($nome_rede_googlemaps)
-			{
-				$this->montar_googlemaps();
-
-				 if(!$this->slq_comando_select("SELECT * FROM googlemaps WHERE nome='$nome_rede_googlemaps'", 1 ) )
-				 {
-				 	$string ="INSERT INTO `googlemaps` (`ID`, `nome`) VALUES (NULL, '$nome_rede_googlemaps' )";
-
-				 	$this->slq_comando($string);
-
-				 	return true;	
-				 }
-				 else
-				 {
-				 	return false;
-				 }		
-			}
-
-			//define O plugin que so pode ser editada
-			public function define_insere_googlemaps($nome_rede_googlemaps)
+			private  function define_insere_googlemaps($nome_posicao_plugin)
 			{
 				$bol = new Textos();
 
-				$this->montar_googlemaps();
+				$campos = array('ID','nome');
 
-				 if(!$this->slq_comando_select("SELECT * FROM googlemaps WHERE nome='$nome_rede_googlemaps'", 1 ) )
+				$where = array('nome' => $nome_posicao_plugin);
+
+				$plugin_googlemaps = $this->sql_select_otimizado('googlemaps',$campos,$where);
+
+
+				 if( count($plugin_googlemaps) <= 0  )
 				 {
-				 	$string ="INSERT INTO `googlemaps` (`ID`, `nome`) VALUES (NULL, '$nome_rede_googlemaps' )";
 
-				 	$ultimo_id = $this->slq_comando_insert($string);
+				 	$campos_googlemaps =  array('nome' => $nome_posicao_plugin);
+				
+					$retorno_id_plugin = $this->sql_insert_otimizado('googlemaps',$campos_googlemaps);
 
-				 	$bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$ultimo_id,'1',$nome_rede_googlemaps,'');
+				 	$ultimo_id = $retorno_id_plugin;
 
-				 	echo $bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$ultimo_id,'0','script','');	
+				 	$bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$ultimo_id,'1',$nome_posicao_plugin,'');
+
+				 	echo $bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$ultimo_id,'0','# GOOGLEMAPS #','');	
 
 				 }
 				 else
 				 {
-				 	$rede = $this->slq_comando_select("SELECT * FROM googlemaps WHERE nome='$nome_rede_googlemaps'");
 
-				 	$bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$rede['ID'],'1',$nome_rede_googlemaps,'');
+				 	$gmaps = $plugin_googlemaps[0];
 
-				 	echo $bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$rede['ID'],'0','script','');	
+				 	$bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'1',$nome_posicao_plugin,'');
+
+				 	echo $bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'0','# GOOGLEMAPS #','');	
 
 				 }	
 	
 
 			}
+			
 
-
-
+			
 
 			public function googlemaps_backend()
 			{
@@ -107,7 +79,26 @@
 				$bol->mod_texto_backend($this->id_pagina,'PLUGIN_GOOGLEMAPS');
 			}
 
+
+
+			public function front($obj)
+			{			
+				
+				$nome = $obj->nome_posicao_plugin;
+
+				$this->define_insere_googlemaps($nome);
+			}
+
+			public function back($obj)
+			{			
+				$this->googlemaps_backend();
+			}
+
+
 			
+
+
+
 
 	}
 

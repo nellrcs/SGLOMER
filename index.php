@@ -60,47 +60,9 @@
 
 	include ('modulos/formularios/formularios.php');
 
-	//INCLUIR TODOS OS  PLUGINS
 
-
-	//CONFIGURACAO
-	
-	//INICIALIZAR PLUGINS JUNTO COM O SISTEMA
-	Principal::montar_plugins();
-	$sql_pk = mysql_query("SELECT * FROM plugins");
-	
-
-    while ($plugin = mysql_fetch_array($sql_pk )) 
-    {
-            define( "_" . strtoupper($plugin['nome']) . "_" , $plugin['status']);
-    }
-
-
-	if(Principal::se_plugin('social'))
-	{
-		include('plugins/social/social.php');
-	}
-
-	if(Principal::se_plugin('buscainterna'))
-	{
-		include('plugins/buscainterna/buscainterna.php');
-	}
-
-	if(Principal::se_plugin('googlemaps'))
-	{
-		include('plugins/googlemaps/googlemaps.php');
-	}
-
-	if(Principal::se_plugin('chatonline'))
-	{
-		include('plugins/chatonline/chatonline.php');
-	}
-
-	if(Principal::se_plugin('banner'))
-	{
-		include('plugins/banner/banner.php');
-	}
-
+	//INCLUIR BASE
+	include './class/Base.class.php';
 
 
 	//CADA PAGINA TERA UM ID
@@ -128,6 +90,7 @@
 			break;
 		}
 	}
+
 
 ?>
 
