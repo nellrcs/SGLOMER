@@ -1,5 +1,11 @@
 <?php
-	
+	class Banner_tipos
+	{
+		public $nome_posicao_plugin;
+		public $imgs;
+	}
+
+
 	class Banner extends Principal
 	{
 
@@ -22,9 +28,13 @@
 			}
 
 
-			public function define_insere_banner($nome_do_banner,$imgs = 3 )
+			public function define_insere_banner($obj)
 			{
 				
+				$nome_do_banner = $obj->nome_posicao_plugin;
+
+				$imgs = $obj->imgs;
+
 				$bol = new Imagem();
 
 				$bol->montar_imagem();
@@ -129,7 +139,16 @@
 
 				}	
 
-			}		
+			}
+
+
+
+			public function front($obj)
+			{			
+				
+				$this->define_insere_banner($obj);
+			}
+		
 
 	}
 

@@ -6,12 +6,14 @@
 
 		private static $caminho_padrao = 'plugins';
 
-		private static $id_pagina;
+		public static $id_pagina;
 
 		
-		function __construct($id_pagina) 
+		function __construct($id_pagina = null) 
 		{
 			self::montat_plugin();
+
+			self::montat_paginas();
 
 			self::definir_plugins();
 
@@ -32,6 +34,19 @@
             self::slq_comando($sql_plugin);  
 		}
 
+
+		private static function montat_paginas()
+		{
+
+            $sql_paginas = "CREATE TABLE IF NOT EXISTS `paginas` (
+              `ID` int(11) NOT NULL AUTO_INCREMENT,
+              `nome` text NOT NULL,
+              `status` text NOT NULL DEFAULT '',
+              PRIMARY KEY (`ID`)
+            ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";  
+
+            self::slq_comando($sql_paginas);  
+		}
 
 		private static function definir_plugins()
 		{
@@ -61,6 +76,26 @@
 			}
 			
 			self::$plugins  = $lista_plugins;
+		}
+
+		public static function lista_paginas_ativas()
+		{
+			
+			$paginas = array();
+
+			$dados = self::sql_select_otimizado('paginas',$campos = array('nome','ID','status'));
+
+			foreach($dados as $pag) 
+			{
+				if($pag['status'] == '1')
+				{
+					$paginas[] = $pag;	
+				}	
+
+			}
+
+			return $paginas;
+
 		}
 
 

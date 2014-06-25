@@ -68,7 +68,7 @@
 
 			
 
-			public function googlemaps_backend()
+/*			public function googlemaps_backend()
 			{
 				$bol = new Textos();
 
@@ -78,6 +78,8 @@
 
 				$bol->mod_texto_backend($this->id_pagina,'PLUGIN_GOOGLEMAPS');
 			}
+*/
+
 
 
 

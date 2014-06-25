@@ -1,13 +1,15 @@
-
-
+<h1>PAGINA CONTATO</h1>
 <?php
-if(Principal::se_plugin('googlemaps'))
-{	
-	echo "<h2>_Plugin googlemaps</h2><hr>";
 
-	$googlemaps = new Googlemaps($id_desta_pagina);
+	class ex_obj 
+	{
+		public $nome_posicao_plugin;
+	}
+	$obj = new ex_obj();
 
-	$googlemaps->define_insere_googlemaps('mapas_contato');
-}
+	//plugin mapas
+	$obj->nome_posicao_plugin = 'mapa_maringa';
+
+	echo $base::front_end('googlemaps',$obj);
 
 ?>

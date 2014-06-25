@@ -50,6 +50,37 @@
 
 		}
 
+
+        function arquivos($nome_diretorio)
+        {
+
+            $adir =  './'.$nome_diretorio;
+
+            $lista_arquivos = array();
+
+            if ($handle = opendir($adir))
+            {
+
+                while (false !== ($entry = readdir($handle))) {
+
+                    if ($entry != "." && $entry != "..") 
+                    {
+
+                        if(pathinfo($entry, PATHINFO_EXTENSION) == 'php' && $entry != 'index.php')
+                         {
+                            $lista_arquivos[] = preg_replace('/\\.[^.\\s]{3,4}$/', '', $entry);
+                         }   
+
+                    }
+                }
+
+                closedir($handle);
+            }
+
+            return $lista_arquivos;
+        }
+
+
         public static function lista_modulos()
         {
         	$mt = new Principal();

@@ -1,51 +1,18 @@
 <?php
   require_once './class/Principal.class.php';
 
-  $diretorio_total = Principal::caminho_diretorio();
+  //INCLUI MODULO FIXO TEXTOS
+  include ('./modulos/textos/textos.php');
 
-  Principal::cria_diretorios_upload();
+  include ('./modulos/imagem/imagem.php');
 
-  include ('modulos/textos/textos.php');
-  include ('modulos/imagem/imagem.php');
+  //INCLUIR BASE
+  include './class/Base.class.php';
 
 
-  //include ('modulos/formularios/formularios.php');
+  $principal = new Principal();
 
-  Principal::montar_plugins();
-
-  $sql_pk = mysql_query("SELECT * FROM plugins");
-  
-
-  while ($plugin = mysql_fetch_array($sql_pk )) 
-  {
-      define( "_" . strtoupper($plugin['nome']) . "_" , $plugin['status']);
-  }
-
-  if(Principal::se_plugin('social'))
-  {
-    include('plugins/social/social.php');
-  }
-
-  if(Principal::se_plugin('buscainterna'))
-  {
-    include('plugins/buscainterna/buscainterna.php');
-  }
-
-  if(Principal::se_plugin('googlemaps'))
-  {
-    include('plugins/googlemaps/googlemaps.php');
-  }
-
-  if(Principal::se_plugin('chatoline'))
-  {
-    include('plugins/chatoline/chatoline.php');
-  }
-
-  if(Principal::se_plugin('banner'))
-  {
-    include('plugins/banner/banner.php');
-  }
-
+  $base = new Base();
 
   //ID DA INDEX
   $id_desta_pagina = 15;
@@ -83,30 +50,15 @@
   </nav> 
 
   <section>
-  <div class="row">
-    <h1>HOME</h1>
-    <?php 
-    $id_desta_pagina = 20;
-    include "home.php"; 
+    <?php  
+    $paginas = $base::lista_paginas_ativas(); 
+    foreach ($paginas as $pagina) 
+    {
+      $base::$id_pagina = $pagina['ID']; 
+      include $pagina['nome'].'.php';
+    }
     ?>
-  </div>
-
-  <div class="row">
-    <h1>EMPRESA</h1>
-    <?php 
-    $id_desta_pagina = 30;
-    include "empresa.php"; 
-    ?>
- </div>
-
-  <div class="row">
-    <h1>CONTATO</h1>
-    <?php 
-    $id_desta_pagina = 40;
-    include "contato.php"; 
-    ?>
-  </div>
-
+  </section>
 </div>
 <footer class="clearfix">
   <div class="row">
