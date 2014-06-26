@@ -4,6 +4,8 @@
   //INCLUI MODULO FIXO TEXTOS
   include ('./modulos/textos/textos.php');
 
+
+
   include ('./modulos/imagem/imagem.php');
 
   //INCLUIR BASE
@@ -51,11 +53,14 @@
 
   <section>
     <?php  
+    include ('./modulos/formularios/formularios.php');
     $paginas = $base::lista_paginas_ativas(); 
+
     foreach ($paginas as $pagina) 
     {
       $base::$id_pagina = $pagina['ID']; 
       include $pagina['nome'].'.php';
+
     }
     ?>
   </section>
