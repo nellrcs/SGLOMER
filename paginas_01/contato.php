@@ -10,6 +10,8 @@
 	//plugin mapas
 	$obj->nome_posicao_plugin = 'mapa_maringa';
 
+
+
 	echo $base::front_end('googlemaps',$obj);
 
 ?>

@@ -1,19 +1,14 @@
 <?php
 	require_once './class/Principal.class.php';
-
 	//INCLUI MODULO FIXO TEXTOS
 	include ('./modulos/textos/textos.php');
-
 	include ('./modulos/imagem/imagem.php');
-
 	//INCLUIR BASE
 	include './class/Base.class.php';
 
-
   $principal = new Principal();
-
+  
   $base = new Base();
-
 ?>
 
 <!DOCTYPE html>

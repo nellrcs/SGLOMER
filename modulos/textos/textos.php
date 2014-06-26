@@ -35,24 +35,38 @@
 
             function mod_texto( $id_pagina, $posicao, $tipo = 0, $texto = null, $traducao = null)
             {
-                //verifica se o bnaco existe
+                //verifica se o banco existe
                 $this->montar();
 
-                //verifica se os campos nao existem ou os ou os cria
-                if( !$this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ", 1 ) )
+                $campos_select = array('ID','id_pagina','posicao','tipo','texto','traducao');
+
+                $where = array('id_pagina'=>$id_pagina,'posicao'=>$posicao,'tipo'=>$tipo);  
+
+                $select_textos = $this->sql_select_otimizado('textos',$campos_select,$where);
+
+                //verifica se os campos nao existem ou o os cria
+                if(count($select_textos) <= 0) 
                 {
-                    $string ="INSERT INTO `textos` (`ID`, `id_pagina`, `posicao`, `tipo`, `texto`, `traducao`) VALUES (NULL, '$id_pagina', '$posicao', '$tipo', '".addslashes($texto)."','$traducao' )";
+                    
 
-                    $ultimo_id = $this->slq_comando_insert($string);
+                    $campos_inserir = array('id_pagina' => $id_pagina,'posicao'=>$posicao,'tipo'=>$tipo,'texto'=>addslashes($texto),'traducao'=>$traducao);
+                
+                    $insere_textos = $this->sql_insert_otimizado('textos',$campos_inserir);
 
-                    $retorno_dados = $this->slq_comando_select("SELECT * FROM textos WHERE ID='$ultimo_id'", 0 );
+                    $where = array('ID'=>$id_pagina);
+
+                    $campos = array('texto');
+
+                    $retorno_textos = $this->sql_select_otimizado('textos',$campos,$where);
+
                 }
                 else
                 {
-                    $retorno_dados = $this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ", false );
+                    $retorno_textos = $select_textos;
                 }    
 
-                return $retorno_dados['texto'];
+
+                return $retorno_textos[0]['texto'];
 
             }
 
@@ -63,34 +77,41 @@
                 //verifica se o bnaco existe
                 $this->montar();
 
+                $campos_select = array('ID','id_pagina','posicao','tipo','texto','traducao');
+
+                $where = array('id_pagina'=>$id_pagina,'posicao'=>$posicao,'tipo'=>$tipo);  
+
+                $select_textos = $this->sql_select_otimizado('textos',$campos_select,$where);
+
+
                 //verifica se os campos nao existem ou os ou os cria
-                if( !$this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ", 1 ) )
+                if( count($select_textos) <= 0 )
                 {
-                    $string = "SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ";
-
-                    $this->slq_comando($string);
-
-                    return true;
+                    //PROGRAMAR.....
                 }
                 else
                 {
-                    return true;
+                    //PROGRAMR.....
                 }    
 
             }
 
 
-
             function mod_texto_update($id_texto,$texto)
             {
-                $this->slq_comando("UPDATE textos SET texto='".addslashes($texto)."' WHERE ID ='$id_texto'"); 
+                
+                $campos = array('texto' => addslashes($texto) );
+
+                $where = array('ID' => $id_texto);
+
+                $this->sql_updadate_otimizado('textos',$campos,$where);
+
             }
 
             function mod_texto_editar($dados)
             {
                 foreach($dados as $chave =>$val) 
                 { 
-        
                    $this->mod_texto_update($chave,$val);
                 }
             }
@@ -150,9 +171,11 @@
                     }
                 }  
 
+
+
+
                 $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' GROUP BY posicao");
 
-                
 
                 while( $row1 = mysql_fetch_array($sql) )
                 {  
@@ -190,7 +213,7 @@
 
             function traducao($id_do_texto)
             {
-                 //le o jason com as traduçoes e altera   
+                //le o jason com as traduçoes e altera   
                 //ainda falta definir habilita e desabilita
             }
 }
