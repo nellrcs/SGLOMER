@@ -17,9 +17,9 @@
         }
 
         public static function caminho_url(){
-        	$caminho_url = new Principal();
+            $caminho_url = new Principal();
 
-        	return URL_SISTEMA;
+            return URL_SISTEMA;
         }
 
 		function extencoes($nome_diretorio)

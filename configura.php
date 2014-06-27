@@ -1,9 +1,8 @@
 <?php
-
 	//DADOS URL/DIRETORIO
 	define('DIR_SISTEMA',$_SERVER['DOCUMENT_ROOT']);
 	define('URL_SISTEMA',$_SERVER['REMOTE_ADDR']);
-
+	define('BASE_SITE',$_SERVER['SERVER_NAME'] . '/SGLOMER/');
 
 
 	//DADOS PARA FAZER CONEXAO
@@ -12,8 +11,4 @@
 	define('DB_HOSTNAME','localhost');
 	define('DB_USERNAME','root');
 	define('DB_PASSWORD','');
-	
-
-
-
 ?>

@@ -1,147 +1,243 @@
 <?php
 
-		/// ! AVISO ISSO NÃO ESTA BEM FEITO E NÃO EH SEGURO, FAVOR MUDAR MUDAR...
-		if(!empty($_GET['instalar']))
-		{
-			$nome_plugin = $_GET['instalar'];
+	//Parâmetros
+	// 0 - Nome da página "configuracoes";
+	// 1 - Tipo da ativação "pagina" e "plugin";
+	// 2 - O que vai fazer "ativar, instalar, desativar"
 
-			$string ="INSERT INTO `plugins` (`ID`, `nome`, `status`) VALUES (NULL, '$nome_plugin', '0' )";
+	//SE FOR PÁGINA
+	// 3 - Id da página
 
-            $principal->slq_comando_insert($string);
-		}	
+	//SE FOR PLUGIN
+	// 3 - Nome do plugin
+	
+	echo "<pre>";
+	print_r($url);
+	echo "</pre>";
 
+	$url_master_array = array(
 
-		if(isset($_GET['status']) && !empty($_GET['nome']) )
-		{
-			$status = $_GET['status'];
+		array("configuracoes"),
+		array("pagina", "plugin"),
+		array("ativar", "desativar", "instalar"),
 
-			$nome = $_GET['nome'];
-
-			$string ="UPDATE plugins SET status='$status' WHERE nome ='$nome'";
-
-            $principal->slq_comando($string);
-		}
-		else if(isset($_GET['status']) && !empty($_GET['id']))
-		{
-			$status = $_GET['status'];
-
-			$id = $_GET['id'];
-
-			$string ="UPDATE paginas SET status='$status' WHERE ID ='$id'";
-
-            $principal->slq_comando($string);
-		}	
+	);
 
 
+	function trata_parametro($url_total, $url_master,$numero_de_oks){
 
-		/////////////////////////////////////////////////
-		function seleciona_plugin($nome_plugin)
+
+		$numro_da_base = count($url_master);
+
+		$i = 0;
+
+		foreach ($url_total as $key => $url_separada) 
 		{
 			
-			$principal = new Principal();
-
-			$n_plugin = $principal->slq_comando_select("SELECT * FROM plugins WHERE nome='$nome_plugin'");
-
-			if($n_plugin)
+			
+			if($key < $numro_da_base)
 			{	
-			
-			$status_p = $n_plugin['status'];
+				foreach ($url_master[$key] as $valor) 
+				{
+					
+					if($url_separada == $valor)
+					{
+						$i++;
+					}
 
-			if($status_p == "1")
-			{
-				?>
-					<ol class="breadcrumb">
-					  <li class="active">Ativar</li>
-					   <li><a href="?pg=configuracoes&status=0&nome=<?php echo $nome_plugin; ?>">Destivar</a></li>
-					  <li class="navbar-right"><?php echo $nome_plugin; ?></li>
-					</ol>
-				<?php
 				}
-				else
-				{?>
-					<ol class="breadcrumb">
-					  <li><a href="?pg=configuracoes&status=1&nome=<?php echo $nome_plugin; ?>">Ativar</a></li>
-					  <li class="active">Desativar</li>
-					  <li class="navbar-right"><?php echo $nome_plugin; ?></li>
-					</ol>
-				<?php
-				}	
-
 			}
-			else
-			{
-			?>
-			<ol class="breadcrumb">
-			  <li><a href="?pg=configuracoes&instalar=<?php echo $nome_plugin; ?>">Instalar</a></li>
-			  <li class="navbar-right"><?php echo $nome_plugin; ?></li>
-			</ol>
-			<?php
-			}	
 
 		}
-	//////////////////////////////////////////////////////////
-		function seleciona_pagina($nome_pagina)
-		{
-			
-			$principal = new Principal();
 
-			$n_plugin = $principal->slq_comando_select("SELECT * FROM paginas WHERE nome='$nome_pagina'");
+		return $i;
+		// $verifica_existencia_array = false;
 
-			if($n_plugin)
-			{	
-			
+		// foreach ($possibilidades_parametro as $possibilidade) {
+		// 	if($possibilidade == $parametro){
 
-			$status_p = $n_plugin['status'];
+		// 		$verifica_existencia_array = true;
 
-			$id = $n_plugin['ID'];
+		// 	}
+		// }
 
-			if($status_p == "1")
-			{
-				?>
-					<ol class="breadcrumb">
-					  <li class="active">Ativar</li>
-					   <li><a href="?pg=configuracoes&status=0&id=<?php echo $id; ?>">Destivar</a></li>
-					  <li class="navbar-right"><strong><?php echo $nome_pagina; ?></strong></li>
-					</ol>
-				<?php
-				}
-				else
-				{?>
-					<ol class="breadcrumb">
-					  <li><a href="?pg=configuracoes&status=1&id=<?php echo $id; ?>">Ativar</a></li>
-					  <li class="active">Desativar</li>
-					  <li class="navbar-right"><strong><?php echo $nome_pagina; ?></strong></li>
-					</ol>
-				<?php
-				}	
+		// return $verifica_existencia_array;
+	}
 
-			}
-			else
-			{
 
-			$string ="INSERT INTO `paginas` (`ID`, `nome`, `status`) VALUES (NULL, '$nome_pagina', '0' )";
+	if(isset($url[1]))
+	{
 
-            $ultimo_id = $principal->slq_comando_insert($string);
+		echo trata_parametro($url, $url_master_array,3);
 
-			?>
+	}
+
+
+
+
+
+
+	// if(isset($url[1])){
+	// 	if($url[1] == "pagina"){
+
+	// 		if($url[2] == "ativar"){
+
+	// 			$id_pagina = $url[3];
+
+	// 			$string ="UPDATE paginas SET status='1' WHERE ID ='$id_pagina'";
+
+ //        		$principal->slq_comando($string);
+
+	// 		}elseif($url[2] == "desativar"){
+
+	// 			$id_pagina = $url[3];
+
+	// 			$string ="UPDATE paginas SET status='0' WHERE ID ='$id_pagina'";
+
+ //        		$principal->slq_comando($string);
+
+	// 		}
+
+	// 	}elseif($url[1] == "plugin"){
+
+
+
+	// 	}
+	// }
+
+
+	// if(!empty($_GET['instalar'])){
+	// 	$nome_plugin = $_GET['instalar'];
+
+	// 	$string ="INSERT INTO `plugins` (`ID`, `nome`, `status`) VALUES (NULL, '$nome_plugin', '0' )";
+
+ //        $principal->slq_comando_insert($string);
+	// }	
+
+
+	// if(isset($_GET['status']) && !empty($_GET['nome']) ){
+	// 	$status = $_GET['status'];
+
+	// 	$nome = $_GET['nome'];
+
+	// 	$string ="UPDATE plugins SET status='$status' WHERE nome ='$nome'";
+
+ //        $principal->slq_comando($string);
+
+	// }else if(isset($_GET['status']) && !empty($_GET['id'])){
+
+	// 	$status = $_GET['status'];
+
+	// 	$id = $_GET['id'];
+
+	// 	$string ="UPDATE paginas SET status='$status' WHERE ID ='$id'";
+
+ //        $principal->slq_comando($string);
+	// }
+?>
+
+
+<?php 
+function seleciona_pagina($nome_pagina){
+	
+	$principal = new Principal();
+
+	$n_plugin = $principal->slq_comando_select("SELECT * FROM paginas WHERE nome='$nome_pagina'");
+
+	if($n_plugin){	
+	
+	$status_p = $n_plugin['status'];
+
+	$id = $n_plugin['ID'];
+?>
+		
+		<?php if($status_p == "1"){ ?>
 			<ol class="breadcrumb">
 			  <li class="active">Ativar</li>
-			   <li><a href="?pg=configuracoes&status=0&id=<?php echo $ultimo_id; ?>">Destivar</a></li>
-			  <li class="navbar-right"><?php echo $nome_pagina; ?></li>
+			   <li><a href="configuracoes/pagina/desativar/<?php echo $id; ?>.html">Destivar</a></li>
+			  <li class="navbar-right"><strong><?php echo $nome_pagina; ?></strong></li>
 			</ol>
-			<?php
-			}	
 
-		}	
+		<?php }else{ ?>
+
+			<ol class="breadcrumb">
+			  <li><a href="configuracoes/pagina/ativar/<?php echo $id; ?>.html">Ativar</a></li>
+			  <li class="active">Desativar</li>
+			  <li class="navbar-right"><strong><?php echo $nome_pagina; ?></strong></li>
+			</ol>
+		<?php }	?>
+
+	<?php
+	
+	}else{
+
+	$string ="INSERT INTO `paginas` (`ID`, `nome`, `status`) VALUES (NULL, '$nome_pagina', '0' )";
+
+    $ultimo_id = $principal->slq_comando_insert($string);
+
+	?>
+
+	<ol class="breadcrumb">
+	  	<li class="active">Ativar</li>
+	   		<li><a href="configuracoes/pagina/desativar/0/<?php echo $ultimo_id; ?>.html">Destivar</a></li>
+	  	<li class="navbar-right"><?php echo $nome_pagina; ?></li>
+	</ol>
+
+	<?php }//fecha if da verificação da select das paginas ?>
+
+<?php }//fecha função ?>
 
 
 
 
-?>
+<?php 
+function seleciona_plugin($nome_plugin){
+			
+	$principal = new Principal();
+
+	$n_plugin = $principal->slq_comando_select("SELECT * FROM plugins WHERE nome='$nome_plugin'");
+
+	if($n_plugin){
+
+		$status_p = $n_plugin['status'];
+
+	?>
+		<?php if($status_p == "1"){?>
+
+			<ol class="breadcrumb">
+			  <li class="active">Ativar</li>
+			   <li><a href="configuracoes/plugin/desativar/0/<?php echo $nome_plugin; ?>.html">Destivar</a></li>
+			  <li class="navbar-right"><?php echo $nome_plugin; ?></li>
+			</ol>
+
+		<?php }else{ ?>
+
+			<ol class="breadcrumb">
+			  <li><a href="configuracoes/plugin/ativar/1/<?php echo $nome_plugin; ?>.html">Ativar</a></li>
+			  <li class="active">Desativar</li>
+			  <li class="navbar-right"><?php echo $nome_plugin; ?></li>
+			</ol>
+
+		<?php } ?>
+	
+	<?php }else{ ?>
+
+	<ol class="breadcrumb">
+		<li><a href="configuracoes/plugin/instalar/0/<?php echo $nome_plugin; ?>.html">Instalar</a></li>
+		<!-- <li><a href="configuracoes&instalar=<?php //echo $nome_plugin; ?>">Instalar</a></li> -->
+		<li class="navbar-right"><?php echo $nome_plugin; ?></li>
+	</ol>
+
+	<?php }//fecha if da verificação da select dos plugins ?>
+
+<?php }//fecha função ?>
+
+
+
+
 <h3>PAGINAS</h3>
 <?php
-foreach ($principal->arquivos('paginas_01') as $p) 
-{
+foreach ($principal->arquivos('paginas_01') as $p){
 	seleciona_pagina($p);
 }
 ?>
@@ -150,9 +246,7 @@ foreach ($principal->arquivos('paginas_01') as $p)
 
 <h3>PLUGINS</h3>
 <?php 
-
-foreach ($principal->lista_plugins() as $v) 
-{
+foreach ($principal->lista_plugins() as $v) {
 	seleciona_plugin($v);
 }
 

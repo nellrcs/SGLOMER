@@ -14,6 +14,8 @@
 
   $base = new Base();
 
+  //Trabalha com o paginamento
+  if(isset($_GET['Secao'])){$Sec = $_GET['Secao'];}else{$Sec = "";}
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +28,8 @@
     <meta name="author" content="">
 
     <title>#SAGLOMER</title>
+    
+    <base href="http://<?php echo BASE_SITE; ?>">
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="./bootstrap-3.1.1/css/bootstrap.css">
@@ -48,7 +52,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">#SGLOMER</a>
+          <a class="navbar-brand" href="configuracoes.html">#SGLOMER</a>
         </div>
       </div>
     </div>
@@ -82,7 +86,13 @@
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-          <?php include 'configuracoes.php' ?>
+          <?php
+              if(($Sec == "") || ($Sec == "configuracoes")){
+                include ("configuracoes.php");
+              }else{
+                  include ("secao.php");
+              }
+          ?>
 
         </div>
       </div>
