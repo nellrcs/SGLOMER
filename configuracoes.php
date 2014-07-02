@@ -11,66 +11,62 @@
 	//SE FOR PLUGIN
 	// 3 - Nome do plugin
 	
-	echo "<pre>";
-	print_r($url);
-	echo "</pre>";
+	// $url_master_array = array(
 
-	$url_master_array = array(
+	// 	array("configuracoes"),
+	// 	array("pagina", "plugin"),
+	// 	array("ativar", "desativar", "instalar"),
 
-		array("configuracoes"),
-		array("pagina", "plugin"),
-		array("ativar", "desativar", "instalar"),
-
-	);
+	// );
 
 
-	function trata_parametro($url_total, $url_master,$numero_de_oks){
+	// function trata_parametro($url_total, $url_master,$numero_de_oks){
 
 
-		$numro_da_base = count($url_master);
+	// 	$numro_da_base = count($url_master);
 
-		$i = 0;
+	// 	$i = 0;
 
-		foreach ($url_total as $key => $url_separada) 
-		{
+	// 	foreach ($url_total as $key => $url_separada) 
+	// 	{
 			
 			
-			if($key < $numro_da_base)
-			{	
-				foreach ($url_master[$key] as $valor) 
-				{
+	// 		if($key < $numro_da_base)
+	// 		{	
+	// 			foreach ($url_master[$key] as $valor) 
+	// 			{
 					
-					if($url_separada == $valor)
-					{
-						$i++;
-					}
+	// 				if($url_separada == $valor)
+	// 				{
+	// 					$i++;
+	// 				}
 
-				}
-			}
+	// 			}
+	// 		}
 
-		}
+	// 	}
 
-		return $i;
-		// $verifica_existencia_array = false;
+	// 	return $i;
+	// 	// $verifica_existencia_array = false;
 
-		// foreach ($possibilidades_parametro as $possibilidade) {
-		// 	if($possibilidade == $parametro){
+	// 	// foreach ($possibilidades_parametro as $possibilidade) {
+	// 	// 	if($possibilidade == $parametro){
 
-		// 		$verifica_existencia_array = true;
+	// 	// 		$verifica_existencia_array = true;
 
-		// 	}
-		// }
+	// 	// 	}
+	// 	// }
 
-		// return $verifica_existencia_array;
-	}
+	// 	// return $verifica_existencia_array;
+	// }
 
 
-	if(isset($url[1]))
-	{
+	// if(isset($url[1]))
+	// {
 
-		echo trata_parametro($url, $url_master_array,3);
+	// 	echo trata_parametro($url, $url_master_array,3);
 
-	}
+	// }
 
 
 
@@ -154,7 +150,7 @@ function seleciona_pagina($nome_pagina){
 		<?php if($status_p == "1"){ ?>
 			<ol class="breadcrumb">
 			  <li class="active">Ativar</li>
-			   <li><a href="configuracoes/pagina/desativar/<?php echo $id; ?>.html">Destivar</a></li>
+			   <li><a href="configuracoes/pagina/desativar/<?php echo $id; ?>">Destivar</a></li>
 			  <li class="navbar-right"><strong><?php echo $nome_pagina; ?></strong></li>
 			</ol>
 
