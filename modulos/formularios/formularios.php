@@ -2,7 +2,7 @@
 <?php
 	class Objeto_formulario
 	{	
-              public $nome_posicao;
+        public $nome_posicao;
 		public $name;
 		public $tipo;
 		public $mask;
