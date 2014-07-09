@@ -1,16 +1,8 @@
-<h1>CRIAR FORMULARIOS PESONALIZADOS </h1>
+<h1>CRIAR ITENS PESONALIZADOS </h1>
 <?php
-	class Objeto_formulario
+	class Objeto_item
 	{	
-              public $nome_posicao;
-		public $name;
-		public $tipo;
-		public $mask;
-		public $maxlenth;
-		public $opcoes_json;
-		public $options;
-		public $label;
-		public $ordem;
+       
 	}
 
 	class Formularios extends Principal
