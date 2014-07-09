@@ -17,89 +17,68 @@
 	// 	array("pagina", "plugin"),
 	// 	array("ativar", "desativar", "instalar"),
 
-	// );
 
-
-	// function trata_parametro($url_total, $url_master,$numero_de_oks){
-
-
-	// 	$numro_da_base = count($url_master);
-
-	// 	$i = 0;
-
-	// 	foreach ($url_total as $key => $url_separada) 
-	// 	{
-			
-			
-	// 		if($key < $numro_da_base)
-	// 		{	
-	// 			foreach ($url_master[$key] as $valor) 
-	// 			{
+	if(isset($url[1]) and isset($url[2]) and isset($url[3])){
+		if($url[1] == "pagina"){
 					
-	// 				if($url_separada == $valor)
-	// 				{
-	// 					$i++;
-	// 				}
+			$id_pagina = base64_decode($url[3]);
 
-	// 			}
-	// 		}
+			if((int)$id_pagina){
+				if($url[2] == "ativar"){
 
-	// 	}
+					$string ="UPDATE paginas SET status='1' WHERE ID ='$id_pagina'";
+	        		$principal->slq_comando($string);
+	        	
+	        	}elseif($url[2] == "desativar"){
 
-	// 	return $i;
-	// 	// $verifica_existencia_array = false;
+					$string ="UPDATE paginas SET status='0' WHERE ID ='$id_pagina'";
+	        		$principal->slq_comando($string);
 
-	// 	// foreach ($possibilidades_parametro as $possibilidade) {
-	// 	// 	if($possibilidade == $parametro){
+				}else{
+					//cara ta de patifaria
+					echo '<script type="text/javascript">location.href="404.php";</script>';
+				}
 
-	// 	// 		$verifica_existencia_array = true;
+			}else{
+				//cara ta de patifaria
+				echo '<script type="text/javascript">location.href="404.php";</script>';
+			}
+		
 
-	// 	// 	}
-	// 	// }
+		}elseif($url[1] == "plugin"){
 
-	// 	// return $verifica_existencia_array;
-	// }
+			
+			$nome_plugin = base64_decode($url[3]);
 
+			if((string)$nome_plugin){
 
-	// if(isset($url[1]))
-	// {
+				if($url[2] == "instalar"){
+	        		
+					$string ="INSERT INTO `plugins` (`nome`, `status`) VALUES ('$nome_plugin', '0' )";
+        			$principal->slq_comando_insert($string);
 
-	// 	echo trata_parametro($url, $url_master_array,3);
+	        	}elseif($url[2] == "ativar"){
+					
+					$string ="UPDATE plugins SET status='1' WHERE nome ='$nome_plugin'";
+        			$principal->slq_comando($string);
 
-	// }
+	        	}elseif($url[2] == "desativar"){
 
+					$string ="UPDATE plugins SET status='0' WHERE nome ='$nome_plugin'";
+        			$principal->slq_comando($string);
 
+				}else{
+					//cara ta de patifaria
+					echo '<script type="text/javascript">location.href="404.php";</script>';
+				}
 
+			}else{
+				//cara ta de patifaria
+				echo '<script type="text/javascript">location.href="404.php";</script>';
+			}
 
-
-
-	// if(isset($url[1])){
-	// 	if($url[1] == "pagina"){
-
-	// 		if($url[2] == "ativar"){
-
-	// 			$id_pagina = $url[3];
-
-	// 			$string ="UPDATE paginas SET status='1' WHERE ID ='$id_pagina'";
-
- //        		$principal->slq_comando($string);
-
-	// 		}elseif($url[2] == "desativar"){
-
-	// 			$id_pagina = $url[3];
-
-	// 			$string ="UPDATE paginas SET status='0' WHERE ID ='$id_pagina'";
-
- //        		$principal->slq_comando($string);
-
-	// 		}
-
-	// 	}elseif($url[1] == "plugin"){
-
-
-
-	// 	}
-	// }
+		}
+	}
 
 
 	// if(!empty($_GET['instalar'])){
@@ -150,14 +129,14 @@ function seleciona_pagina($nome_pagina){
 		<?php if($status_p == "1"){ ?>
 			<ol class="breadcrumb">
 			  <li class="active">Ativar</li>
-			   <li><a href="configuracoes/pagina/desativar/<?php echo $id; ?>">Destivar</a></li>
+			   <li><a href="configuracoes/pagina/desativar/<?php echo base64_encode($id); ?>.html">Destivar</a></li>
 			  <li class="navbar-right"><strong><?php echo $nome_pagina; ?></strong></li>
 			</ol>
 
 		<?php }else{ ?>
 
 			<ol class="breadcrumb">
-			  <li><a href="configuracoes/pagina/ativar/<?php echo $id; ?>.html">Ativar</a></li>
+			  <li><a href="configuracoes/pagina/ativar/<?php echo base64_encode($id); ?>.html">Ativar</a></li>
 			  <li class="active">Desativar</li>
 			  <li class="navbar-right"><strong><?php echo $nome_pagina; ?></strong></li>
 			</ol>
@@ -175,7 +154,7 @@ function seleciona_pagina($nome_pagina){
 
 	<ol class="breadcrumb">
 	  	<li class="active">Ativar</li>
-	   		<li><a href="configuracoes/pagina/desativar/0/<?php echo $ultimo_id; ?>.html">Destivar</a></li>
+	   		<li><a href="configuracoes/pagina/desativar/0/<?php echo base64_encode($ultimo_id); ?>.html">Destivar</a></li>
 	  	<li class="navbar-right"><?php echo $nome_pagina; ?></li>
 	</ol>
 
@@ -202,14 +181,14 @@ function seleciona_plugin($nome_plugin){
 
 			<ol class="breadcrumb">
 			  <li class="active">Ativar</li>
-			   <li><a href="configuracoes/plugin/desativar/0/<?php echo $nome_plugin; ?>.html">Destivar</a></li>
+			   <li><a href="configuracoes/plugin/desativar/<?php echo base64_encode($nome_plugin); ?>.html">Destivar</a></li>
 			  <li class="navbar-right"><?php echo $nome_plugin; ?></li>
 			</ol>
 
 		<?php }else{ ?>
 
 			<ol class="breadcrumb">
-			  <li><a href="configuracoes/plugin/ativar/1/<?php echo $nome_plugin; ?>.html">Ativar</a></li>
+			  <li><a href="configuracoes/plugin/ativar/<?php echo base64_encode($nome_plugin); ?>.html">Ativar</a></li>
 			  <li class="active">Desativar</li>
 			  <li class="navbar-right"><?php echo $nome_plugin; ?></li>
 			</ol>
@@ -219,7 +198,7 @@ function seleciona_plugin($nome_plugin){
 	<?php }else{ ?>
 
 	<ol class="breadcrumb">
-		<li><a href="configuracoes/plugin/instalar/0/<?php echo $nome_plugin; ?>.html">Instalar</a></li>
+		<li><a href="configuracoes/plugin/instalar/<?php echo base64_encode($nome_plugin); ?>.html">Instalar</a></li>
 		<!-- <li><a href="configuracoes&instalar=<?php //echo $nome_plugin; ?>">Instalar</a></li> -->
 		<li class="navbar-right"><?php echo $nome_plugin; ?></li>
 	</ol>

@@ -75,7 +75,7 @@
               $paginas = $base::lista_paginas_ativas(); 
               foreach ($paginas as $pagina) 
               {
-                echo "<li><a href='#".$pagina['ID']."'>".$pagina['nome']."</a></li>";
+                echo "<li><a href='central/".$pagina['ID'].".html'>".$pagina['nome']."</a></li>";
               }
             ?>
             
