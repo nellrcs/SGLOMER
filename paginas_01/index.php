@@ -50,7 +50,8 @@
   </nav> 
 
   <section>
-    <?php  
+    <?php
+    include ('./modulos/formularios/formularios.php');
     $paginas = $base::lista_paginas_ativas(); 
     foreach ($paginas as $pagina) 
     {
