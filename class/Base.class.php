@@ -7,9 +7,11 @@
 		private static $caminho_padrao = 'plugins';
 
 		public static $id_pagina;
+                
+		public static $nome_plugin;
 
 		
-		function __construct($id_pagina = null) 
+		function __construct($id_pagina = null,$nome_plugin = null) 
 		{
 			self::montat_plugin();
 
@@ -18,6 +20,8 @@
 			self::definir_plugins();
 
 			self::$id_pagina = $id_pagina;
+                        
+			self::$nome_plugin = $nome_plugin;
 
 		}
 
@@ -99,33 +103,113 @@
 		}
 
 
-		public static function front_end($nome_plugin,$obj)
-		{
-			$funcao = false;
+		public static function front_end($obj)
+		{       
+                        $nome_plugin = self::$nome_plugin;
+			if($nome_plugin != false)
+                        {
+                    
+                            $funcao = false;
 
-			foreach (self::$plugins  as $nome => $valor) 
-			{
-				
-				if($nome == $nome_plugin)
-				{
-					$nome_plugin = ucfirst($nome_plugin);
+                            foreach (self::$plugins  as $nome => $valor) 
+                            {
 
-					$plugin = new $nome_plugin(self::$id_pagina);
+                                    if($nome == $nome_plugin)
+                                    {
+                                            $nome_plugin = ucfirst($nome_plugin);
 
-					$funcao = $plugin->front($obj);
-				}
-				else
-				{
-					$funcao = false;
-				}	
-			}
-			return $funcao;
+                                            $plugin = new $nome_plugin(self::$id_pagina);
+
+                                            $funcao = $plugin->front($obj);
+                                    }
+                                    else
+                                    {
+                                            $funcao = false;
+                                    }	
+                            }
+                            return $funcao;
+                        }
+                        else 
+                        {
+                           return false; 
+                        }
+                        
 		}
 
+                function obj_plugin()
+                {
+                       $nome_plugin = self::$nome_plugin;
+                       
+			if($nome_plugin != false)
+                        {
+                    
+                            $obj_plugin = false;
 
-		public static function back_end()
+                            foreach (self::$plugins  as $nome => $valor) 
+                            {
+
+                                if($nome == $nome_plugin)
+                                {
+                                    $nome_plugin = ucfirst($nome_plugin);
+
+                                    $nome_plugin = $nome_plugin.'_obj';
+
+                                    $obj_plugin = new $nome_plugin();
+
+                                    return  $obj_plugin;
+                                }
+                                else
+                                {
+                                        $funcao = false;
+                                }	
+                            }
+                            return $obj_plugin;
+                        }
+                        else 
+                        {
+                           return false; 
+                        }
+                    
+                }
+                
+                public static function back_end_lista()
+                {
+                    	
+                    
+                   $nome_plugin = self::$nome_plugin;
+			if($nome_plugin != false)
+                        {
+                    
+                            $funcao = false;
+
+                            foreach (self::$plugins  as $nome => $valor) 
+                            {
+
+                                    if($nome == $nome_plugin)
+                                    {
+                                            $nome_plugin = ucfirst($nome_plugin);
+
+                                            $plugin = new $nome_plugin(self::$id_pagina);
+
+                                            $funcao = $plugin->back();
+                                    }
+                                    else
+                                    {
+                                            $funcao = false;
+                                    }	
+                            }
+                            return $funcao;
+                        }
+                        else 
+                        {
+                           return false; 
+                        }
+                }        
+
+
+                public static function back_end()
 		{
-
+                    
 
 		}
 

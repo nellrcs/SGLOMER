@@ -1,5 +1,5 @@
 <?php
-	class Googlemaps_tipos
+	class Googlemaps_obj
 	{
 		public $nome_posicao_plugin;
 	}
@@ -65,10 +65,7 @@
 
 			}
 			
-
-			
-
-/*			public function googlemaps_backend()
+			public function googlemaps_backend()
 			{
 				$bol = new Textos();
 
@@ -78,8 +75,6 @@
 
 				$bol->mod_texto_backend($this->id_pagina,'PLUGIN_GOOGLEMAPS');
 			}
-*/
-
 
 
 
@@ -91,7 +86,7 @@
 				$this->define_insere_googlemaps($nome);
 			}
 
-			public function back($obj)
+			public function back()
 			{			
 				$this->googlemaps_backend();
 			}
