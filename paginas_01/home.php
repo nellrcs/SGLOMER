@@ -1,4 +1,4 @@
-<H1>PAGINA HOME<H1>
+<H1>PAGINA HOME</H1>
 <br>
 <h2>* Modulo texto</h2>
 <hr>

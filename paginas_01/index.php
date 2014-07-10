@@ -13,7 +13,9 @@
   $principal = new Principal();
 
   $base = new Base();
-
+  
+  $textoT = new Textos();
+  
   //ID DA INDEX
   $id_desta_pagina = 15;
 ?>
@@ -37,8 +39,23 @@
 <header> <a href="#" class="fork">fork me</a>
   <div class="row">
     <div class="head">
-      <h1><a href="#">SGLOMER</a></h1>
+        <h1><a href="#"><?php echo $textoT->mod_texto($id_desta_pagina, 'title_pg_top', 1, "QUALQUER NOME", 'pt') ?></a></h1>
       <h4>The best theme you can now use with Github !</h4>
+      
+      
+      <?php
+           class moose
+           {
+               public $nome_posicao_plugin;
+           }
+           $obj = new moose();
+           
+           $obj->nome_posicao_plugin = "testanto aqui";
+           
+           echo $base::front_end('googlemaps',$obj);
+      ?>
+      
+      
     </div>
   </div>
 </header>
