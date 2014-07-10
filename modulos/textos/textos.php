@@ -11,7 +11,24 @@
 	class Textos extends Principal
 	{
 
-            public $sql = "CREATE TABLE IF NOT EXISTS `textos` (
+
+        public  $id_pagina;
+
+        //Constroi a classe Textos
+        function __construct($id_pagina = null) 
+        {
+
+            $this->id_pagina = $id_pagina;
+
+            $this->montar_textos(); 
+
+        }
+
+            //Funcao que cria o banco de dados se ele não existir.
+            function montar_textos()
+            {       
+               
+               $sql = "CREATE TABLE IF NOT EXISTS `textos` (
                       `ID` int(11) NOT NULL AUTO_INCREMENT,
                       `id_pagina` int(11) NOT NULL,
                       `posicao` varchar(200) NOT NULL DEFAULT '',
@@ -19,66 +36,61 @@
                       `texto` text NOT NULL,
                       `traducao` text,
                       PRIMARY KEY (`ID`)
-                    ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";	
+                    ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;"; 
 
-           function __construct()
-           { 
-                
-           }
-
-            /* MONTAR */
-            function montar()
-            {       
-                $this->slq_comando($this->sql);
+                $this->sql_comando($sql);
             }
 
 
-            function mod_texto( $id_pagina, $posicao, $tipo = 0, $texto = null, $traducao = null)
+            //funcao que cria textos para o pagina/local
+           function preciso_texto_aqui($posicao, $tipo = 0, $texto = null, $traducao = null)
             {
-                //verifica se o bnaco existe
-                $this->montar();
+  
+                 $this->montar_textos();   
+
+                //campos que o select deve trazer
+                $campos = array('texto');
+
+                //campos que o select deve filtar
+                $where = array('id_pagina' => $this->id_pagina,'posicao'=> $posicao,'tipo'=>$tipo);
+
+                //funcao que recebe *( nome da tabela , campos trazidos , campos filtrados )
+                $select_texto = $this->sql_select_otimizado('textos',$campos,$where);
+
 
                 //verifica se os campos nao existem ou os ou os cria
-                if( !$this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ", 1 ) )
+                if( count($select_texto) <= 0 )
                 {
-                    $string ="INSERT INTO `textos` (`ID`, `id_pagina`, `posicao`, `tipo`, `texto`, `traducao`) VALUES (NULL, '$id_pagina', '$posicao', '$tipo', '".addslashes($texto)."','$traducao' )";
+                    
 
-                    $ultimo_id = $this->slq_comando_insert($string);
+                    $campos_textos = array(
+                        'id_pagina' =>$this->id_pagina, 
+                        'posicao' =>$posicao, 
+                        'tipo' =>$tipo, 
+                        'texto' =>$texto, 
+                        'traducao' =>$traducao, 
 
-                    $retorno_dados = $this->slq_comando_select("SELECT * FROM textos WHERE ID='$ultimo_id'", 0 );
+                        );
+
+                    $insere_textos =  $this->sql_insert_otimizado('textos',$campos_textos);
+
+                    $ultimo_id = $insere_textos;
+
+                    $campos = array('texto');
+
+                    $where = array('ID' => $ultimo_id);
+
+                    $select_texto = $this->sql_select_otimizado('textos',$campos,$where);
+
                 }
                 else
                 {
-                    $retorno_dados = $this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ", false );
+                    $select_texto = $this->sql_select_otimizado('textos',$campos,$where);
                 }    
 
-                return $retorno_dados['texto'];
+                return $select_texto[0]['texto'];
 
             }
-
-
-
-            function remove_mod_texto( $id_pagina, $posicao, $tipo = 0, $texto = null, $traducao = null)
-            {
-                //verifica se o bnaco existe
-                $this->montar();
-
-                //verifica se os campos nao existem ou os ou os cria
-                if( !$this->slq_comando_select("SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ", 1 ) )
-                {
-                    $string = "SELECT * FROM textos WHERE id_pagina='$id_pagina' AND posicao='$posicao' AND tipo='$tipo' ";
-
-                    $this->slq_comando($string);
-
-                    return true;
-                }
-                else
-                {
-                    return true;
-                }    
-
-            }
-
 
 
             function mod_texto_update($id_texto,$texto)
@@ -86,11 +98,13 @@
                 $this->slq_comando("UPDATE textos SET texto='".addslashes($texto)."' WHERE ID ='$id_texto'"); 
             }
 
+            
+
+
             function mod_texto_editar($dados)
             {
                 foreach($dados as $chave =>$val) 
                 { 
-        
                    $this->mod_texto_update($chave,$val);
                 }
             }
@@ -195,8 +209,6 @@
             }
 }
 
-
-$bol = new Textos(23);
 
 //////////////// + F R O N T + /////////////////////////////
 //  este echo cria e mostra o campo no front do site     //

@@ -7,7 +7,7 @@
 
 			$string ="INSERT INTO `plugins` (`ID`, `nome`, `status`) VALUES (NULL, '$nome_plugin', '0' )";
 
-            $principal->slq_comando_insert($string);
+            $principal->sql_comando($string);
 		}	
 
 
@@ -19,7 +19,7 @@
 
 			$string ="UPDATE plugins SET status='$status' WHERE nome ='$nome'";
 
-            $principal->slq_comando($string);
+            $principal->sql_comando($string);
 		}
 		else if(isset($_GET['status']) && !empty($_GET['id']))
 		{
@@ -29,7 +29,7 @@
 
 			$string ="UPDATE paginas SET status='$status' WHERE ID ='$id'";
 
-            $principal->slq_comando($string);
+            $principal->sql_comando($string);
 		}	
 
 
@@ -40,7 +40,7 @@
 			
 			$principal = new Principal();
 
-			$n_plugin = $principal->slq_comando_select("SELECT * FROM plugins WHERE nome='$nome_plugin'");
+			$n_plugin = $principal->sql_comando("SELECT * FROM plugins WHERE nome='$nome_plugin'");
 
 			if($n_plugin)
 			{	
@@ -85,7 +85,7 @@
 			
 			$principal = new Principal();
 
-			$n_plugin = $principal->slq_comando_select("SELECT * FROM paginas WHERE nome='$nome_pagina'");
+			$n_plugin = $principal->sql_comando("SELECT * FROM paginas WHERE nome='$nome_pagina'");
 
 			if($n_plugin)
 			{	
@@ -121,7 +121,7 @@
 
 			$string ="INSERT INTO `paginas` (`ID`, `nome`, `status`) VALUES (NULL, '$nome_pagina', '0' )";
 
-            $ultimo_id = $principal->slq_comando_insert($string);
+            $ultimo_id = $principal->sql_comando($string);
 
 			?>
 			<ol class="breadcrumb">

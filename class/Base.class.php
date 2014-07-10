@@ -31,7 +31,7 @@
               PRIMARY KEY (`ID`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";  
 
-            self::slq_comando($sql_plugin);  
+            self::sql_comando($sql_plugin);  
 		}
 
 
@@ -45,7 +45,7 @@
               PRIMARY KEY (`ID`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";  
 
-            self::slq_comando($sql_paginas);  
+            self::sql_comando($sql_paginas);  
 		}
 
 		private static function definir_plugins()
