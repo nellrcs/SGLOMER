@@ -1,8 +1,7 @@
-<h1>CRIAR FORMULARIOS PESONALIZADOS </h1>
 <?php
 	class Objeto_formulario
 	{	
-              public $nome_posicao;
+    public $nome_posicao;
 		public $name;
 		public $tipo;
 		public $mask;
@@ -135,6 +134,8 @@
 
                      }
 
+                    echo '<button type="submit" name="submit">Enviar</button>';
+
        	}
 
 
@@ -147,20 +148,20 @@
        		$this->slq_comando_insert($sql);      		
        	}
 
-       	function formulario_back_test(){
+       	function formulario_back_test($posicao = 'BBBBB'){
 
        		$obj = new Objeto_formulario();
 
        		if(!empty($_POST)){
-       			$nome_posicao = 'BBBBB';
+       			$nome_posicao = $posicao;
        			$obj->tipo = $_POST['tipo_formulario'];
-                            $obj->name = $_POST['name_formulario'];
-                            $obj->label = $_POST['label_formulario'];
+            $obj->name = $_POST['name_formulario'];
+            $obj->label = $_POST['label_formulario'];
        			$obj->mask = $_POST['mask_formulario'];
        			$obj->maxlenth = $_POST['maxlenth_formulario'];
        			$obj->opcoes_json = $_POST['opcoes_json_formulario'];
 
-                            $campos = array('id_pagina'=>$this->id_pagina,'id_posicao'=>$nome_posicao,'tipo'=>$obj->tipo,'name'=>$obj->name,'label'=>$obj->label,'mask'=>$obj->mask,'maxlenth'=>$obj->maxlenth,'opcoes_json'=>$obj->opcoes_json);
+            $campos = array('id_pagina'=>$this->id_pagina,'id_posicao'=>$nome_posicao,'tipo'=>$obj->tipo,'name'=>$obj->name,'label'=>$obj->label,'mask'=>$obj->mask,'maxlenth'=>$obj->maxlenth,'opcoes_json'=>$obj->opcoes_json);
 
        			$this->sql_insert_otimizado('padrao_formulario',$campos);
        		}
@@ -196,8 +197,41 @@
        		$inp .= '<input name="opcoes_json_formulario" placeholder="OPTION_JSON" type="text" maxlenth="500" />';
 
        		return $inp;
+
        	}
 
+
+
+  function formulario_back_test_2($dados_array){
+
+    //print_r($dados_array);
+          
+          foreach ($dados_array as $dado) 
+          {
+             
+                $campos = array('id_pagina'=>$this->id_pagina,'id_posicao'=>$dado['nome_posicao'],'tipo'=>$dado['tipo'],'name'=>$dado['name'],'label'=>$dado['label'],'mask'=>$dado['mask'],'maxlenth'=>$dado['maxlenth'],'opcoes_json'=>$dado['opcoes_json']);
+
+                 $this->sql_insert_otimizado('padrao_formulario',$campos);
+            
+          }
+
+
+/*
+                $nome_posicao =  $valor->nome_posicao;
+                $obj->tipo = $valor->tipo;
+                $obj->name = $valor->name;
+                $obj->label = $valor->label;
+                $obj->mask = $valor->mask;
+                $obj->maxlenth = $valor->maxlenth;
+                $obj->opcoes_json = $valor->opcoes_json;
+
+                $campos = array('id_pagina'=>$this->id_pagina,'id_posicao'=>$nome_posicao,'tipo'=>$obj->tipo,'name'=>$obj->name,'label'=>$obj->label,'mask'=>$obj->mask,'maxlenth'=>$obj->maxlenth,'opcoes_json'=>$obj->opcoes_json);
+
+                $this->sql_insert_otimizado('padrao_formulario',$campos);*/
+
+
+
+        }
 
 
        	function define_insere_formulario($nome_posicao)
@@ -256,41 +290,49 @@
        	}
 	}
 
-       echo '<h4>FRONT FORMULARIO</h4>';
-
-       $id_pagina = '15';
+       // echo '<h4>FRONT FORMULARIO</h4><br><br>';
+       //  echo '<h6>FORMULARIO 1</h6>';
+      //  $id_pagina = '15';
 	
-       $for = new Formularios($id_pagina);
-	
-	$for->montar_formulario();
+      //  $for = new Formularios($id_pagina);
+	     
+	     // $for->montar_formulario();
 
 	//FRONT
-	 $for->define_insere_formulario('AAAAA');
-        echo '<br><br>';
-        $for->define_insere_formulario('BBBBB');
 
-        $for->slq_monta_form();
+	// $for->define_insere_formulario('AAAAA');
 
-         echo '<br><br>';
- //       echo 'Formulario';
+	//    echo '<hr>';
+ //    echo '<br><br>';
+ //    echo '<h6>FORMULARIO 2</h6>';
+
+
+ //    $for->define_insere_formulario('BBBBB');
+
+	// echo '<hr>';
+
+ //    //$for->slq_monta_form();
+
+ //    echo '<br><br>';
+ // //       echo 'Formulario';
 
 //BACK
-       echo '<h4>BACK FORMULARIO</h4>';
-	$obj = new Objeto_formulario();
+ //       echo '<h4>BACK FORMULARIO</h4>';
+	// $obj = new Objeto_formulario();
 
 
-	$obj->tipo = 'select';
-	$obj->mask = ' ';
-	$obj->maxlenth = '';
-	$obj->opcoes_json = '{option:1/NOME,2/SOBRENOME,3/CPF}';
+	// $obj->tipo = 'select';
+	// $obj->mask = ' ';
+	// $obj->maxlenth = '';
+	// $obj->opcoes_json = '{option:1/NOME,2/SOBRENOME,3/CPF}';
 
-	echo '<form action="#" method="post">';
+	// echo '<form action="#" method="post">';
 
-	echo $for->formulario_back_test();
-	echo '<br>';
-	echo '<button name="submit" type="submit">ENVIAR</button>';
+	// echo $for->formulario_back_test();
+	// echo '<br>';
+	// echo '<button name="submit" type="submit">ENVIAR</button>';
 
-	echo '</form>';
+	// echo '</form>';
 
 
 ?>
