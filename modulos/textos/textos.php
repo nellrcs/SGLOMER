@@ -93,15 +93,17 @@
             }
 
 
-            function mod_texto_update($id_texto,$texto)
+
+            //passando o id e o texto ele faz update
+            private function mod_texto_update($id_texto,$texto)
             {
                 $this->slq_comando("UPDATE textos SET texto='".addslashes($texto)."' WHERE ID ='$id_texto'"); 
             }
 
             
-
-
-            function mod_texto_editar($dados)
+            
+            //esta funcao substituira o post    
+            private function mod_texto_editar($dados)
             {
                 foreach($dados as $chave =>$val) 
                 { 
@@ -110,7 +112,9 @@
             }
 
 
-            function mod_text_lista($id_pagina,$posicao)
+
+            //lista textos da pagina
+            private function mod_text_lista($id_pagina,$posicao)
             {
 
                 $array = array();

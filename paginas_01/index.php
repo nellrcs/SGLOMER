@@ -1,5 +1,4 @@
 <?php
- 
 
   require_once './class/Principal.class.php';
 
