@@ -3,7 +3,7 @@
 <h2>* Modulo texto</h2>
 <hr>
 
-
+	
 
 
 
@@ -65,6 +65,20 @@ echo $imagem->define_insere_imagem($id_pagina,'imagens','http://www.guanambi.ba.
 <?php
 
 ?>
+
+<br><br>
+
+<?php 
+	class Limao {
+		public $id_posicao;
+	}
+
+	$obj = new Limao();
+	$obj->id_posicao = 'BBBBB';
+
+	echo $base::front_end('contato',$obj); 
+?>	
+
 
 <script type="text/javascript">
 	$('#up').cycle({ 
