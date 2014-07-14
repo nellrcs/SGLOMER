@@ -7,10 +7,12 @@
 
 	class Googlemaps extends Principal
 	{
+			public $id_pagina;
 
 			function Googlemaps($id_pagina)
 			{	
 				$this->id_pagina = $id_pagina;
+				
 				$this->montar_googlemaps();
 			}
 
@@ -22,13 +24,13 @@
 		                      PRIMARY KEY (`ID`)
 		                    ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";	
 
-				$this->slq_comando($sql_googlemaps);
+				$this->sql_comando($sql_googlemaps);
 			}
 
 
 			private  function define_insere_googlemaps($nome_posicao_plugin)
 			{
-				$bol = new Textos();
+				$bol = new Textos($this->id_pagina);
 
 				$campos = array('ID','nome');
 
@@ -46,9 +48,9 @@
 
 				 	$ultimo_id = $retorno_id_plugin;
 
-				 	$bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$ultimo_id,'1',$nome_posicao_plugin,'');
+				 	$bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$ultimo_id,'1',$nome_posicao_plugin,'');
 
-				 	echo $bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$ultimo_id,'0','# GOOGLEMAPS #','');	
+				 	echo $bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$ultimo_id,'0','# GOOGLEMAPS #','');	
 
 				 }
 				 else
@@ -56,26 +58,37 @@
 
 				 	$gmaps = $plugin_googlemaps[0];
 
-				 	$bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'1',$nome_posicao_plugin,'');
+				 	$bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'1',$nome_posicao_plugin,'');
 
-				 	echo $bol->mod_texto($this->id_pagina,'PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'0','# GOOGLEMAPS #','');	
+				 	echo $bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'0','# GOOGLEMAPS #','');	
 
 				 }	
 	
-
 			}
 			
+			
+
 			public function googlemaps_backend()
 			{
-				$bol = new Textos();
+				
 
-				$bol->montar();
+				$bol = new Textos($this->id_pagina);
 
+				echo $bol->mod_texto();
+/*
 				$this->montar_googlemaps();
 
-				$bol->mod_texto_backend($this->id_pagina,'PLUGIN_GOOGLEMAPS');
+				$bol->mod_texto_backend('PLUGIN_GOOGLEMAPS');*/
 			}
 
+
+			public function plugin_lista()
+			{
+
+				$bol = new Textos($this->id_pagina);
+
+				$bol->mod_text_lista_plugin('PLUGIN_GOOGLEMAPS');
+			}
 
 
 			public function front($obj)

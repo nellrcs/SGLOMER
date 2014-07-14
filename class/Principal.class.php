@@ -142,5 +142,11 @@
         }*/
 
 
+        public static function pagina_erro()
+        {
+            echo '<script type="text/javascript">location.href="404.php";</script>';
+        }
+
+
 	}
 ?>

@@ -35,7 +35,7 @@
               PRIMARY KEY (`ID`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";  
 
-            self::slq_comando($sql_plugin);  
+            self::sql_comando($sql_plugin);  
 		}
 
 
@@ -49,7 +49,7 @@
               PRIMARY KEY (`ID`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";  
 
-            self::slq_comando($sql_paginas);  
+            self::sql_comando($sql_paginas);  
 		}
 
 		private static function definir_plugins()
@@ -82,6 +82,27 @@
 			self::$plugins  = $lista_plugins;
 		}
 
+
+        public static function dados_post()
+        {
+            $obj = new stdClass();
+
+            if(!empty($_POST))
+            {   
+
+                foreach ($_POST as $key => $value)
+                {
+                    $obj->$key = $value;
+                }
+
+            }  
+
+            return $obj;   
+        }
+
+
+
+
 		public static function lista_paginas_ativas()
 		{
 			
@@ -105,8 +126,9 @@
 
 		public static function front_end($obj)
 		{       
-                        $nome_plugin = self::$nome_plugin;
-			if($nome_plugin != false)
+            $nome_plugin = self::$nome_plugin;
+			
+            if($nome_plugin != false)
                         {
                     
                             $funcao = false;
@@ -136,78 +158,138 @@
                         
 		}
 
-                function obj_plugin()
+        public static function obj_plugin()
+        {
+               $nome_plugin = self::$nome_plugin;
+
+               $obj_plugin = new stdClass();
+               
+	            if($nome_plugin != false)
                 {
-                       $nome_plugin = self::$nome_plugin;
-                       
-			if($nome_plugin != false)
+            
+                    foreach (self::$plugins  as $nome => $valor) 
+                    {
+
+                        if($nome == $nome_plugin)
                         {
-                    
-                            $obj_plugin = false;
+                            $nome_plugin = ucfirst($nome_plugin);
 
-                            foreach (self::$plugins  as $nome => $valor) 
-                            {
+                            $nome_plugin = $nome_plugin.'_obj';
 
-                                if($nome == $nome_plugin)
-                                {
-                                    $nome_plugin = ucfirst($nome_plugin);
-
-                                    $nome_plugin = $nome_plugin.'_obj';
-
-                                    $obj_plugin = new $nome_plugin();
-
-                                    return  $obj_plugin;
-                                }
-                                else
-                                {
-                                        $funcao = false;
-                                }	
-                            }
-                            return $obj_plugin;
+                            $obj_plugin = new $nome_plugin();
+  
                         }
-                        else 
-                        {
-                           return false; 
-                        }
-                    
+
+                    }
+     
                 }
-                
-                public static function back_end_lista()
+
+                return  $obj_plugin;
+
+            
+        }
+        
+/*        public static function back_end_lista()
+        {
+            	
+            
+            $nome_plugin = self::$nome_plugin;
+	        if($nome_plugin != false)
+            {
+        
+                $funcao = false;
+
+                foreach (self::$plugins  as $nome => $valor) 
                 {
-                    	
-                    
-                   $nome_plugin = self::$nome_plugin;
-			if($nome_plugin != false)
-                        {
-                    
-                            $funcao = false;
 
-                            foreach (self::$plugins  as $nome => $valor) 
+                        if($nome == $nome_plugin)
+                        {
+                            $nome_plugin = ucfirst($nome_plugin);
+
+                            $plugin = new $nome_plugin(self::$id_pagina);
+
+                            $funcao = $plugin->back();
+                        }
+                        else
+                        {
+                                $funcao = false;
+                        }	
+                }
+                return $funcao;
+            }
+            else 
+            {
+               return false; 
+            }
+        }    */    
+
+
+        public static function back_end_lista()
+        {
+                
+             $campos = array('nome','ID');  
+
+             $where = array('status'=>1);   
+
+             $plugins = self::sql_select_otimizado('plugins',$campos,$where);
+
+
+             foreach ($plugins as $plugin) 
+             {
+                $nome_plugin = ucfirst($plugin['nome']);
+
+                $obj_plugin = new $nome_plugin(self::$id_pagina);
+
+                $obj_plugin->plugin_lista();
+
+             }
+
+            
+
+             //print_r($plugins);
+
+/*              $id_pagina = $this->id_pagina;
+
+
+                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' GROUP BY posicao");
+
+                
+
+                while( $row1 = mysql_fetch_array($sql) )
+                {  
+                  $sql2 = mysql_query("SELECT * FROM textos WHERE posicao='".$row1['posicao']."' ORDER BY tipo DESC");
+                    while($row = mysql_fetch_array($sql2))
+                    {
+
+                        if($ini_pocicao)
+                        {
+                            $pos = explode('_', $row1['posicao']);
+
+                            $novo = $pos[0].'_'.$pos[1];
+
+                            if($novo == $ini_pocicao)
                             {
+                                echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
 
-                                    if($nome == $nome_plugin)
-                                    {
-                                            $nome_plugin = ucfirst($nome_plugin);
+                                echo "<br>";  
+                            }    
 
-                                            $plugin = new $nome_plugin(self::$id_pagina);
-
-                                            $funcao = $plugin->back();
-                                    }
-                                    else
-                                    {
-                                            $funcao = false;
-                                    }	
-                            }
-                            return $funcao;
                         }
-                        else 
-                        {
-                           return false; 
-                        }
-                }        
+                        else
+                        {    
+
+                            echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
+
+                            echo "<br>";    
+                        }                    
+                    }
+                }*/
+
+        }    
 
 
-                public static function back_end()
+
+         public static function back_end()
 		{
                     
 
