@@ -132,8 +132,6 @@ function seleciona_pagina($nome_pagina){
  }?>
 
 
-
-
 <?php 
 function seleciona_plugin($nome_plugin){
 			
@@ -161,7 +159,8 @@ function seleciona_plugin($nome_plugin){
 
 <h3>PAGINAS</h3>
 <?php
-foreach ($principal->arquivos('paginas_01') as $p){
+foreach ($principal->arquivos('paginas_01') as $p)
+{
 	seleciona_pagina($p);
 }
 ?>
@@ -170,7 +169,6 @@ foreach ($principal->arquivos('paginas_01') as $p){
 <?php 
 foreach ($principal->lista_plugins() as $v) 
 {
-
 	seleciona_plugin($v);
 }
 

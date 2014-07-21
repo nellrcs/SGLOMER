@@ -26,9 +26,9 @@
 
 		function montar_imagem()
 		{
-			$this->slq_comando($this->sql_imagem);
+			$this->sql_comando($this->sql_imagem);
 
-			$this->slq_comando($this->imagen_relacionada);	
+			$this->sql_comando($this->imagen_relacionada);	
 		}
 
 		function upload_imagem($arquivo_imagem,$nome_imagem,$grupo)
@@ -52,7 +52,7 @@
 		{
 			//TIPO = unico/multiplo
 
-			//GRUPO = grupo a qual est aimagem pertence
+			//GRUPO = grupo a qual esta imagem pertence
 
 			$this->montar_imagem();
 
@@ -87,18 +87,13 @@
 				//MOSTRA A NOVA IMAGEM
 				$imagen_relacionada = $this->sql_select_otimizado('imagem_rl',$campos,$where);
 
-
-
-
 				$campos = array('ID','arquivo','nome');
 
 				$where = array('ID'=>$imagen_relacionada[0]['id_imagem']);
 
 				$imagen = $this->sql_select_otimizado('imagem',$campos,$where);
 
-				print_r($imagen);
-
-				//return $imagen;
+				return $imagen;
 		
 			}
 			else
@@ -132,7 +127,7 @@
 		function define_insere_imagem($id_pagina,$posicao,$imagem = null,$tag = false)
 		{
 			
-			$img = $this-> mod_imagem($id_pagina,$posicao,$imagem);
+			$img = $this->mod_imagem($id_pagina,$posicao,$imagem);
 
 			if($tag == true)
 			{	
@@ -147,7 +142,7 @@
 
 
 
-		function lista_imagems($grupo=null)
+		function lista_imagens($grupo=null)
 		{
 
 			$this->montar_imagem();
@@ -164,19 +159,34 @@
 
 			if($grupo != null)
 			{
-				$dados = $this->sql_select_otimizado('imagem',$campos,$grupo);
+				$where = array('grupo' => $grupo);
+
+				$dados = $this->sql_select_otimizado('imagem',$campos,$where);
+
+				$array = array();
+
+				foreach ($dados as $dado) 
+				{
+
+					$array[] = array('ID'=>$dado['ID'],'posicao'=>$grupo,'editar'=>'imagem');
+				}
+
+				return $array;
+
 			}
 			else
 			{
 				$dados = $this->sql_select_otimizado('imagem',$campos);
+
+				return $dados;
 			}
 
-			return $dados;
+			
 
 		}
 
 
-		function imagem_back_end()
+		function backend()
 		{
 
 			if(!empty($_FILES['file']))

@@ -94,10 +94,15 @@
                 {
                     $obj->$key = $value;
                 }
-
+                return $obj;  
             }  
+            else
+            {
 
-            return $obj;   
+               return false; 
+            }    
+
+             
         }
 
 
@@ -118,43 +123,42 @@
 				}	
 
 			}
-
 			return $paginas;
-
 		}
 
 
 		public static function front_end($obj)
 		{       
             $nome_plugin = self::$nome_plugin;
-			
+
+            $nome_pluginX = "";
+
             if($nome_plugin != false)
-                        {
+             {
                     
-                            $funcao = false;
+                $funcao = false;
 
-                            foreach (self::$plugins  as $nome => $valor) 
-                            {
+                foreach (self::$plugins as $nome => $valor) 
+                {
 
-                                    if($nome == $nome_plugin)
-                                    {
-                                            $nome_plugin = ucfirst($nome_plugin);
+                    if($nome == $nome_plugin)
+                    {
+                        $nome_pluginX = ucfirst($nome_plugin);
 
-                                            $plugin = new $nome_plugin(self::$id_pagina);
+                        $plugin = new $nome_pluginX(self::$id_pagina);
 
-                                            $funcao = $plugin->front($obj);
-                                    }
-                                    else
-                                    {
-                                            $funcao = false;
-                                    }	
-                            }
-                            return $funcao;
-                        }
-                        else 
-                        {
-                           return false; 
-                        }
+                        $funcao = $plugin->front($obj);
+                    }
+  	
+                }
+
+                return $funcao;
+            }
+            else 
+            {   
+
+               return false; 
+            }
                         
 		}
 
@@ -184,55 +188,49 @@
      
                 }
 
-                return  $obj_plugin;
-
-            
+                return  $obj_plugin;   
         }
-        
-/*        public static function back_end_lista()
+
+
+        public static function lista_plugin_menu()
         {
-            	
-            
-            $nome_plugin = self::$nome_plugin;
-	        if($nome_plugin != false)
-            {
-        
-                $funcao = false;
+            $campos = array('nome','ID');  
 
-                foreach (self::$plugins  as $nome => $valor) 
+            $where = array('status'=>1);   
+
+            $plugins = self::sql_select_otimizado('plugins',$campos,$where);
+
+            $para_a_pagina = array();
+
+            foreach ($plugins as $plugin) 
+            {
+                $nome_plugin = ucfirst($plugin['nome']);
+
+                $obj_plugin = new $nome_plugin(self::$id_pagina);
+
+                if($obj_plugin->plugin_menu())
                 {
-
-                        if($nome == $nome_plugin)
-                        {
-                            $nome_plugin = ucfirst($nome_plugin);
-
-                            $plugin = new $nome_plugin(self::$id_pagina);
-
-                            $funcao = $plugin->back();
-                        }
-                        else
-                        {
-                                $funcao = false;
-                        }	
-                }
-                return $funcao;
+                    $para_a_pagina[] =  $obj_plugin->plugin_menu(); 
+                }      
             }
-            else 
-            {
-               return false; 
-            }
-        }    */    
 
+            return $para_a_pagina; 
+ 
+        }
+
+        
 
         public static function back_end_lista()
         {
-                
+             
+             //LISTA PLUGINS   
              $campos = array('nome','ID');  
 
              $where = array('status'=>1);   
 
              $plugins = self::sql_select_otimizado('plugins',$campos,$where);
 
+             $para_a_pagina = array();
 
              foreach ($plugins as $plugin) 
              {
@@ -240,82 +238,36 @@
 
                 $obj_plugin = new $nome_plugin(self::$id_pagina);
 
-                $obj_plugin->plugin_lista();
+                $para_a_pagina[] = array('plugins'=>$obj_plugin->plugin_lista());
 
              }
 
+
+            //LISTA TEXTOS 
+            $bol = new Textos(self::$id_pagina);
+
+            $lista = $bol->mod_text_lista();
+
+            $para_a_pagina[] = array('textos'=>$lista);
+
             
 
-             //print_r($plugins);
+            //LISTA IMAGENS
+            $imagem = new Imagem();
 
-/*              $id_pagina = $this->id_pagina;
+            $grupo = 'grupo_pagina_'.self::$id_pagina;
+
+            $para_a_pagina[] = array('imagens'=>$imagem->lista_imagens($grupo)); 
 
 
-                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' GROUP BY posicao");
+           return $para_a_pagina;
 
-                
 
-                while( $row1 = mysql_fetch_array($sql) )
-                {  
-                  $sql2 = mysql_query("SELECT * FROM textos WHERE posicao='".$row1['posicao']."' ORDER BY tipo DESC");
-                    while($row = mysql_fetch_array($sql2))
-                    {
-
-                        if($ini_pocicao)
-                        {
-                            $pos = explode('_', $row1['posicao']);
-
-                            $novo = $pos[0].'_'.$pos[1];
-
-                            if($novo == $ini_pocicao)
-                            {
-                                echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
-
-                                echo "<br>";  
-                            }    
-
-                        }
-                        else
-                        {    
-
-                            echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
-
-                            echo "<br>";    
-                        }                    
-                    }
-                }*/
 
         }    
 
 
-
-         public static function back_end()
-		{
-                    
-
-		}
-
-
 	}
-
-
-	/**
-	* 
-	*/
-/*	class ex_obj 
-	{
-		public $nome_posicao_plugin;
-	}
-
-
-	$nn = new Base(23);
-
-	$obj = new ex_obj();
-
-	$obj->nome_posicao_plugin = 'flores';
-
-	$nn::front_end('googlemaps',$obj);
-*/
 
 
 ?>

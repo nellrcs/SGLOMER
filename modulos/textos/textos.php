@@ -92,11 +92,10 @@
             }
 
 
-
             //passando o id e o texto ele faz update
             private function mod_texto_update($id_texto,$texto)
             {
-                $this->slq_comando("UPDATE textos SET texto='".addslashes($texto)."' WHERE ID ='$id_texto'"); 
+                $this->sql_comando("UPDATE textos SET texto='".addslashes($texto)."' WHERE ID ='$id_texto'"); 
             }
 
             
@@ -110,7 +109,7 @@
                 }
             }
 
-            //lista textos da pagina
+            //lista plugins que usam textos na pagina
             public function mod_text_lista_plugin($prefixo_plugin)
             {
 
@@ -126,19 +125,43 @@
 
                     if($prefixo_plugin == $novo)
                     {
-                       $array[] = array('ID'=>$this->id_pagina,'posicao'=>$row1['posicao']); 
+                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos'); 
                     }   
                     
                 }
 
-                print_r($array);
+                return $array;
+           }
+
+
+            //mod texto lista textos
+            public function mod_text_lista()
+            {
+
+                $array = array();
+
+                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$this->id_pagina' GROUP BY posicao");
+
+                while( $row1 = mysql_fetch_array($sql) )
+                {
+                    $pos = explode('_', $row1['posicao']);
+
+                    $novo = $pos[0].'_';
+
+                    if("PLUGIN_" != $novo)
+                    {
+                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos'); 
+                    }    
+                }
+
+                return $array;
 
            }
 
 
+           //CRIA O CAMPO DO FORMULARIO PARA EDICAO
            function campo_form($tipo,$value,$name)
            {
-
                 switch ($tipo) 
                 {
                     case '0': $campo = "<textarea name='$name' cols='30' rows='10'>$value</textarea>"; break;
@@ -147,26 +170,51 @@
 
                     case '2': $campo = "<input type='text' value='$value' name='$name'>"; break;
 
+                    case '3': $campo = "<input type='hidden' value='$value' name='$name'>"; break;
+
                     default: $campo = "<input type='text' value='$value' name='$name'>"; break;
                 }
                 return $campo;
-
            }
 
 
-           function mod_texto_backend($ini_pocicao = null)
+           function backend($id_texto,$obj = null)
            {
                 $id_pagina = $this->id_pagina;
 
-                if(!empty($_POST))
+                if(!empty($obj))
                 {   
-                    foreach($_POST as $key => $value) 
+                    foreach($obj as $key => $value) 
                     {
                         $this->mod_texto_update($key,$value);
                     }
                 }  
 
-                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' GROUP BY posicao");
+
+
+                $campos = array('posicao');
+
+                $where = array('ID' => $id_texto);
+
+                $select_texto = $this->sql_select_otimizado('textos',$campos,$where);
+
+
+                $campos2 = array('texto','ID','posicao','tipo');
+
+                $where2 = array('posicao' => $select_texto[0]['posicao']);
+
+                $select_texto2 = $this->sql_select_otimizado('textos',$campos2,$where2);
+
+
+                foreach ($select_texto2 as $select) 
+                {
+                   echo $this->campo_form($select["tipo"],$select["texto"],$select["ID"]);
+                   echo "<br>";
+                }
+
+
+
+/*                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' GROUP BY posicao");
 
                 while( $row1 = mysql_fetch_array($sql) )
                 {  
@@ -196,7 +244,7 @@
                             echo "<br>";    
                         }                    
                     }
-                }
+                }*/
 
                 
             }   

@@ -48,7 +48,7 @@
 
 				 	$ultimo_id = $retorno_id_plugin;
 
-				 	$bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$ultimo_id,'1',$nome_posicao_plugin,'');
+				 	$bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$ultimo_id,'3',$nome_posicao_plugin,'');
 
 				 	echo $bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$ultimo_id,'0','# GOOGLEMAPS #','');	
 
@@ -58,7 +58,7 @@
 
 				 	$gmaps = $plugin_googlemaps[0];
 
-				 	$bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'1',$nome_posicao_plugin,'');
+				 	$bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'3',$nome_posicao_plugin,'');
 
 				 	echo $bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'0','# GOOGLEMAPS #','');	
 
@@ -66,31 +66,23 @@
 	
 			}
 			
-			
-
-			public function googlemaps_backend()
+			/* TODOS */
+			public function plugin_menu()
 			{
-				
-
-				$bol = new Textos($this->id_pagina);
-
-				echo $bol->mod_texto();
-/*
-				$this->montar_googlemaps();
-
-				$bol->mod_texto_backend('PLUGIN_GOOGLEMAPS');*/
+				return false;
 			}
-
-
+			/* TODOS */
 			public function plugin_lista()
 			{
 
 				$bol = new Textos($this->id_pagina);
 
-				$bol->mod_text_lista_plugin('PLUGIN_GOOGLEMAPS');
+				$lista = $bol->mod_text_lista_plugin('PLUGIN_GOOGLEMAPS');
+
+				return $lista;
 			}
 
-
+			/* TODOS */
 			public function front($obj)
 			{			
 				
@@ -98,31 +90,14 @@
 
 				$this->define_insere_googlemaps($nome);
 			}
-
+			/* TODOS */
 			public function back()
 			{			
 				$this->googlemaps_backend();
 			}
 
 
-			
-
-
-
-
 	}
-
-
-
-
-
-	//$googlemaps = new Googlemaps('23');
-
-	//$googlemaps->lista_googlemaps();
-
-	//$googlemaps->insere_googlemaps('facebook');
-
-	//$googlemaps->googlemaps_backend();
 
 
 ?>

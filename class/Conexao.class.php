@@ -200,6 +200,69 @@
 		}
 
 
+
+		function sql_criar_tabela($tabela,$campos_valores)
+		{
+
+
+			$string = "CREATE TABLE IF NOT EXISTS `". $tabela ."` (`ID` int(11) NOT NULL AUTO_INCREMENT,";
+
+			$i = 1;
+
+			foreach($campos_valores as $campo => $valor)
+			{
+
+				$string .= $valor;
+				
+				if ($i!= count($campos_valores))
+				{
+					$string .= ', ';
+				}
+
+				$i++;
+			}	
+
+			$string .= ", PRIMARY KEY (`ID`) ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";  	
+
+			$quer =  mysql_query($string) or die(mysql_error());
+
+			return true;
+
+		}
+
+		//MELHORAR ESTA FUNCAO! COM MAIS OPCOES
+		function campo_para_tabela($nome,$tipo)
+		{
+			switch ($tipo) 
+			{
+				case 'input':
+					$campo = " `".$nome."` varchar(200) NOT NULL DEFAULT '0'";	
+				break;
+
+				case 'textarea':
+					$campo = " `".$nome."` text NOT NULL DEFAULT '' ";	
+				break;
+
+				case 'select':
+					$campo = " `".$nome."` text NOT NULL DEFAULT '' ";	
+				break;				
+
+				case 'radio':
+					$campo = " `".$nome."` text NOT NULL DEFAULT '' ";	
+				break;
+
+				case 'checkbox':
+					$campo = " `".$nome."` text NOT NULL DEFAULT '' ";	
+				break;
+
+			}
+
+			return $campo;
+		}
+
+
+
+
 	}
 
 ?>

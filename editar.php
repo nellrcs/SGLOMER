@@ -1,17 +1,26 @@
+<form method="post">
 <?php
 
 	$dados = $base::dados_post();
+	$classe;
+	switch ($url[1]) 
+	{
+		case 'textos':
+			$classe = new Textos();
+			break;
+		case 'imagem':
+			$classe = new Imagem();
+			break;	
+		case 'formularios':
+			$classe = new Formularios();
+		break;			
+		case 'itens':
+			$classe = new Itens();
+		break;		
+	}
 
-	print_r($dados);
+	$classe->backend($url[2],$dados);
 
 ?>
-
-
-<form method="post">
-	<input name="aa">
-	<input name="bb">
-	<input name="cc">
-	<input name="ee">
-	<input name="xx">
-	<button>ENVIAR</button>
+<button>ENVIAR</button>
 </form>

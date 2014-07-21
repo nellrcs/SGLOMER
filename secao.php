@@ -18,6 +18,7 @@ if ($Sec == "") { if ($prod == 1) { include "configuracoes.php";}else{include "c
 if ($Sec == "configuracoes")				{include "configuracoes.php";}
 elseif ($Sec == "central") 					{ include "central.php";}
 elseif ($Sec == "editar") 					{ include "editar.php";}
+elseif ($Sec == "modulo") 					{ include "modulo.php";}
 
 else {include "pg_erro.php";}
 

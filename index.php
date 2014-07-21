@@ -1,16 +1,24 @@
 <?php
 	require_once './class/Principal.class.php';
 
-	//INCLUI MODULO FIXO TEXTOS
+	//INCLUI MODULO FIXO
 	include ('./modulos/textos/textos.php');
 
-	include ('./modulos/imagem/imagem.php');
+  include ('./modulos/imagem/imagem.php');
+
+	include ('./modulos/formularios/formularios.php');
+
+
+  //INCLUI MODULO
+  include ('./modulos/itens/itens.php');
 
 	//INCLUIR BASE
 	include './class/Base.class.php';
 
 
   $principal = new Principal();
+
+  $textos = new Textos();
 
   $base = new Base();
 
@@ -79,7 +87,16 @@
               }
             ?>
             
+
+            <?php 
+            foreach ( $base::lista_plugin_menu() as $pagina ) 
+            {
+              echo "<li><a href='".$pagina['url']."'><i class='glyphicon glyphicon-tag'></i> <strong>".$pagina['nome']."</strong></a></li>";
+            }
+          ?>
           </ul>
+
+
 
 
         </div>

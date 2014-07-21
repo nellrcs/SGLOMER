@@ -1,6 +1,0 @@
-RewriteEngine On
-RewriteCond %{SCRIPT_FILENAME} !-f
-RewriteCond %{SCRIPT_FILENAME} !-d
-RewriteCond $1 !^(index\.php|img|css|js|favicon\.ico|robots\.txt)
-
-RewriteRule ^(.*).html$ index.php?Secao=$1

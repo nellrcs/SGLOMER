@@ -1,15 +1,15 @@
-<h1>PAGINA CONTATO</h1>
+<h1>CONTATO</h1>
 <?php
 
-	class ex_obj 
-	{
-		public $nome_posicao_plugin;
-	}
-	$obj = new ex_obj();
+//PLUGIN GOOGLE MAPAS
+/* DECLARA */
+$base::$nome_plugin = 'googlemaps';  
+$obj = $base::obj_plugin();
+//--------------------------------
 
-	//plugin mapas
-	$obj->nome_posicao_plugin = 'mapa_maringa';
 
-	echo $base::front_end('googlemaps',$obj);
+$obj->nome_posicao_plugin = "novo_gmapas3";
+$base::front_end($obj);
+
 
 ?>
