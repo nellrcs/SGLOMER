@@ -199,7 +199,7 @@
 			return true;
 		}
 
-
+		
 
 		function sql_criar_tabela($tabela,$campos_valores)
 		{

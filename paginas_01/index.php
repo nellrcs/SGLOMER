@@ -4,7 +4,8 @@
   //INCLUI MODULO FIXO TEXTOS
   include ('./modulos/textos/textos.php');
 
-  
+  include ('./modulos/formularios/formularios.php');
+
   include ('./modulos/imagem/imagem.php');
 
   //INCLUI MODULO

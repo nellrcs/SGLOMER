@@ -19,15 +19,15 @@
 		
 				$obj = new stdClass();
 
-				$obj->nome = array('name'=>'nome','label'=>'Nome','tipo'=>'input','mask'=>'ttt','maxlenth'=>'30','opcoes_json','options','ordem'=>1);
+				$obj->nome = array('name'=>'nome','label'=>'Nome','tipo'=>'input','mask'=>'ttt','maxlenth'=>'30','opcoes_json','options','ordem'=>1,'value'=>1);
 
-				$obj->preco = array('name'=>'preco','label'=>'Preco','tipo'=>'input','mask'=>'ttt','maxlenth'=>'30','opcoes_json','options','ordem'=>2);
+				$obj->preco = array('name'=>'preco','label'=>'Preco','tipo'=>'input','mask'=>'ttt','maxlenth'=>'30','opcoes_json','options','ordem'=>2,'value'=>1);
 
-				$obj->categoria = array('name'=>'categoria','label'=>'Categoria','tipo'=>'input','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>3);
+				$obj->categoria = array('name'=>'categoria','label'=>'Categoria','tipo'=>'input','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>3,'value'=>1);
 
-				$obj->descricao = array('name'=>'descricao','label'=>'Descricao','tipo'=>'textarea','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>4);
+				$obj->descricao = array('name'=>'descricao','label'=>'Descricao','tipo'=>'textarea','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>4,'value'=>1);
 
-				$obj->imagem = array('name'=>'imagem','label'=>'Imagem','tipo'=>'input','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>5);
+				$obj->imagem = array('name'=>'imagem','label'=>'Imagem','tipo'=>'input','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>5,'value'=>1);
 
 				$itens::$nome_tabela = 'produtos';
 
