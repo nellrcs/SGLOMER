@@ -1,11 +1,11 @@
 <?php
     class Tipo_textos
     {
-        public $id;        
-        public $id_pagina;      
-        public $posicao;      
-        public $tipo;      
-        public $texto;      
+        public $id;
+        public $id_pagina;
+        public $posicao;
+        public $tipo;
+        public $texto;
     }
 
     class Textos extends Principal
@@ -15,19 +15,19 @@
         public $id_pagina;
 
         //Constroi a classe Textos
-        function __construct($id_pagina = null) 
+        function __construct($id_pagina = null)
         {
 
             $this->id_pagina = $id_pagina;
 
-            $this->montar_textos(); 
+            $this->montar_textos();
 
         }
 
             //Funcao que cria o banco de dados se ele não existir.
             function montar_textos()
-            {       
-               
+            {
+
                $sql = "CREATE TABLE IF NOT EXISTS `textos` (
                       `ID` int(11) NOT NULL AUTO_INCREMENT,
                       `id_pagina` int(11) NOT NULL,
@@ -36,7 +36,7 @@
                       `texto` text NOT NULL,
                       `traducao` text,
                       PRIMARY KEY (`ID`)
-                    ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;"; 
+                    ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";
 
                 $this->sql_comando($sql);
             }
@@ -45,8 +45,8 @@
             //funcao que cria textos para o pagina/local
            function preciso_texto_aqui($posicao, $tipo = 0, $texto = null, $traducao = null)
             {
-  
-                 $this->montar_textos();   
+
+                 $this->montar_textos();
 
                 //campos que o select deve trazer
                 $campos = array('texto');
@@ -63,11 +63,11 @@
                 {
 
                     $campos_textos = array(
-                        'id_pagina' =>$this->id_pagina, 
-                        'posicao' =>$posicao, 
-                        'tipo' =>$tipo, 
-                        'texto' =>$texto, 
-                        'traducao' =>$traducao, 
+                        'id_pagina' =>$this->id_pagina,
+                        'posicao' =>$posicao,
+                        'tipo' =>$tipo,
+                        'texto' =>$texto,
+                        'traducao' =>$traducao,
 
                         );
 
@@ -85,7 +85,7 @@
                 else
                 {
                     $select_texto = $this->sql_select_otimizado('textos',$campos,$where);
-                }    
+                }
 
                 return $select_texto[0]['texto'];
 
@@ -95,16 +95,16 @@
             //passando o id e o texto ele faz update
             private function mod_texto_update($id_texto,$texto)
             {
-                $this->sql_comando("UPDATE textos SET texto='".addslashes($texto)."' WHERE ID ='$id_texto'"); 
+                $this->sql_comando("UPDATE textos SET texto='".addslashes($texto)."' WHERE ID ='$id_texto'");
             }
 
-            
-            
-            //esta funcao substituira o post    
+
+
+            //esta funcao substituira o post
             private function mod_texto_editar($dados)
             {
-                foreach($dados as $chave =>$val) 
-                { 
+                foreach($dados as $chave =>$val)
+                {
                    $this->mod_texto_update($chave,$val);
                 }
             }
@@ -125,9 +125,9 @@
 
                     if($prefixo_plugin == $novo)
                     {
-                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos'); 
-                    }   
-                    
+                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos');
+                    }
+
                 }
 
                 return $array;
@@ -150,31 +150,46 @@
 
                     if("PLUGIN_" != $novo)
                     {
-                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos'); 
-                    }    
+                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos');
+                    }
                 }
 
                 return $array;
 
            }
 
-
            //CRIA O CAMPO DO FORMULARIO PARA EDICAO
-           function campo_form($tipo,$value,$name)
+           private static function campo_form($select_texto2)
            {
-                switch ($tipo) 
+                $obj = new stdClass();
+
+                $Formularios =  new Formularios();
+
+                $contador = 0;
+
+                foreach ($select_texto2 as $select)
                 {
-                    case '0': $campo = "<textarea name='$name' cols='30' rows='10'>$value</textarea>"; break;
+                  $contador++;
 
-                    case '1': $campo = "<input type='text' value='$value' name='$name'>"; break;
+                  $n = 'n'.$select["ID"];
 
-                    case '2': $campo = "<input type='text' value='$value' name='$name'>"; break;
+                   switch ($select["tipo"])
+                   {
+                       case '0': $obj->$n = array('name'=>$select["ID"],'label'=>'','tipo'=>'textarea','mask'=>'','maxlenth'=>'','opcoes_json','options','ordem'=>$contador,'value'=>$select["texto"]); break;
 
-                    case '3': $campo = "<input type='hidden' value='$value' name='$name'>"; break;
+                       case '1': $obj->$n = array('name'=>$select["ID"],'label'=>'','tipo'=>'input','mask'=>'','maxlenth'=>'100','opcoes_json','options','ordem'=>$contador,'value'=>$select["texto"]); break;
 
-                    default: $campo = "<input type='text' value='$value' name='$name'>"; break;
+                       case '2': $obj->$n = array('name'=>$select["ID"],'label'=>'','tipo'=>'input','mask'=>'','maxlenth'=>'100','opcoes_json','options','ordem'=>$contador,'value'=>$select["texto"]); break;
+
+                       case '3': $obj->$n = array('name'=>$select["ID"],'label'=>'','tipo'=>'hidden','mask'=>'','maxlenth'=>'100','opcoes_json','options','ordem'=>$contador,'value'=>$select["texto"]); break;
+
+                       default: $obj->$n = array('name'=>$select["ID"],'label'=>'','tipo'=>'input','mask'=>'','maxlenth'=>'100','opcoes_json','options','ordem'=>$contador,'value'=>$select["texto"]); break;
+                   }
+
                 }
-                return $campo;
+
+              return $Formularios->formulario_template($obj);
+
            }
 
 
@@ -183,12 +198,12 @@
                 $id_pagina = $this->id_pagina;
 
                 if(!empty($obj))
-                {   
-                    foreach($obj as $key => $value) 
+                {
+                    foreach($obj as $key => $value)
                     {
                         $this->mod_texto_update($key,$value);
                     }
-                }  
+                }
 
 
 
@@ -205,8 +220,11 @@
 
                 $select_texto2 = $this->sql_select_otimizado('textos',$campos2,$where2);
 
+                $formulario = self::campo_form($select_texto2);
 
-                foreach ($select_texto2 as $select) 
+
+/*
+                foreach ($select_texto2 as $select)
                 {
                    echo $this->campo_form($select["tipo"],$select["texto"],$select["ID"]);
                    echo "<br>";
@@ -214,10 +232,10 @@
 
 
 
-/*                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' GROUP BY posicao");
+              $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' GROUP BY posicao");
 
                 while( $row1 = mysql_fetch_array($sql) )
-                {  
+                {
                   $sql2 = mysql_query("SELECT * FROM textos WHERE posicao='".$row1['posicao']."' ORDER BY tipo DESC");
                     while($row = mysql_fetch_array($sql2))
                     {
@@ -232,27 +250,27 @@
                             {
                                 echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
 
-                                echo "<br>";  
-                            }    
+                                echo "<br>";
+                            }
 
                         }
                         else
-                        {    
+                        {
 
                             echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
 
-                            echo "<br>";    
-                        }                    
+                            echo "<br>";
+                        }
                     }
                 }*/
 
-                
-            }   
+            return $formulario;
+            }
 
 
             function traducao($id_do_texto)
             {
-                 //le o jason com as traduçoes e altera   
+                 //le o jason com as traduçoes e altera
                 //ainda falta definir habilita e desabilita
             }
 }
@@ -276,4 +294,3 @@
 //---------------------------------------------////
 
 ?>
-

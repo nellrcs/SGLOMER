@@ -2,14 +2,14 @@
 	//FUNCOES BASICAS
 	function status_pagina($status,$id)
 	{
-		
+
 		$principal = new Principal();
 
 		$campo_valor = array('status'=>$status);
 
 		$where = array('ID'=>$id);
 
-	    $principal->sql_updadate_otimizado('paginas',$campo_valor,$where);
+	    $principal->sql_update_otimizado('paginas',$campo_valor,$where);
 	}
 
 
@@ -33,14 +33,14 @@
 			<!-- <li><a href="configuracoes&instalar=<?php //echo $nome_plugin; ?>">Instalar</a></li> -->
 			<li class="navbar-right"><?php echo $nome; ?></li>
 		</ol>
-		<?php }	
+		<?php }
 	}
 
 
 	if(isset($url[1]) and isset($url[2]) and isset($url[3])){
 
 		if($url[1] == "pagina"){
-						
+
 			$id_pagina = base64_decode($url[3]);
 
 			if((int)$id_pagina){
@@ -50,32 +50,32 @@
 
 	        	}elseif($url[2] == "desativar"){
 
-	        		status_pagina(0,$id_pagina);	
-	        			
+	        		status_pagina(0,$id_pagina);
+
 				}else{
-					
+
 					$principal->pagina_erro();
 				}
 
 			}else{
 				$principal->pagina_erro();
 			}
-		
+
 
 		}elseif($url[1] == "plugin"){
 
-			
+
 			$nome_plugin = base64_decode($url[3]);
 
 			if((string)$nome_plugin){
 
 				if($url[2] == "instalar"){
-	        		
+
 					$string ="INSERT INTO `plugins` (`nome`, `status`) VALUES ('$nome_plugin', '0' )";
         			$principal->sql_comando($string);
 
 	        	}elseif($url[2] == "ativar"){
-					
+
 					$string ="UPDATE plugins SET status='1' WHERE nome ='$nome_plugin'";
         			$principal->sql_comando($string);
 
@@ -100,9 +100,9 @@
 
 ?>
 
-<?php 
+<?php
 function seleciona_pagina($nome_pagina){
-	
+
 	$principal = new Principal();
 
 	$campos = array('ID','status');
@@ -111,8 +111,8 @@ function seleciona_pagina($nome_pagina){
 
 	$n_paginas  = $principal->sql_select_otimizado('paginas',$campos,$where);
 
-	if($n_paginas){	
-	
+	if($n_paginas){
+
 	$status_p = $n_paginas[0]['status'];
 
 	$id = $n_paginas[0]['ID'];
@@ -132,9 +132,9 @@ function seleciona_pagina($nome_pagina){
  }?>
 
 
-<?php 
+<?php
 function seleciona_plugin($nome_plugin){
-			
+
 	$principal = new Principal();
 
 	$campos = array('status');
@@ -166,11 +166,10 @@ foreach ($principal->arquivos('paginas_01') as $p)
 ?>
 
 <h3>PLUGINS</h3>
-<?php 
-foreach ($principal->lista_plugins() as $v) 
+<?php
+foreach ($principal->lista_plugins() as $v)
 {
 	seleciona_plugin($v);
 }
 
 ?>
-

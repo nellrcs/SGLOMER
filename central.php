@@ -13,26 +13,26 @@
         return $html;
       };
 
-      $base::$id_pagina = $url[1]; 
+      $base::$id_pagina = $url[1];
 
       $dados_pagina = $base::back_end_lista();
 
-      foreach($dados_pagina as $dados) 
+      foreach($dados_pagina as $dados)
       {
-        foreach ($dados as $chave => $dado) 
+        foreach ($dados as $chave => $dado)
         {
-          
+
           if($dado)
-          {  
+          {
             echo "<h2>".ucfirst($chave)."</h2>";
 
-            foreach ($dado as $d) 
+            foreach ($dado as $d)
             {
               echo item_lista_html($d['posicao'],$d['ID'],$d['editar']);
             }
           }
         }
-      } 
+      }
 
 
 ?>

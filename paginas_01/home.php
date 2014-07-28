@@ -1,8 +1,8 @@
 <h1>home</h1>
-<?php 
+<?php
 
-				
-		
+
+
 				$obj = new stdClass();
 
 				$Formularios =  new Formularios();
@@ -16,7 +16,7 @@
 
 
 				//$arrayJson = '1|Masculino,2|Feminino,3|Andre';
-				
+
 
 
 				$obj->nome = array('name'=>'nome','label'=>'Nome','tipo'=>'input','mask'=>'ttt','maxlenth'=>'30','opcoes_json','options','ordem'=>7,'value'=>1);
@@ -33,10 +33,10 @@
 
 				$obj->combo2 = array('name'=>'Sexo2','label'=>'sexo2','tipo'=>'select','mask'=>'','maxlenth'=>'','opcoes_json'=>$arrayJson,'options','ordem'=>1,'value'=>4);
 
-				//print_r($obj);				
+				//print_r($obj);
 
 				$Formularios->formulario_template($obj);
 
 
 
-?>	
+?>

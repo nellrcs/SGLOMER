@@ -15,10 +15,11 @@ else {$Sec = $url[0];}
 
 if ($Sec == "") { if ($prod == 1) { include "configuracoes.php";}else{include "configuracoes.php";} }
 
-if ($Sec == "configuracoes")				{include "configuracoes.php";}
-elseif ($Sec == "central") 					{ include "central.php";}
-elseif ($Sec == "editar") 					{ include "editar.php";}
-elseif ($Sec == "modulo") 					{ include "modulo.php";}
+if ($Sec == "configuracoes")				{ include "configuracoes.php"; }
+elseif ($Sec == "central") 					{ include "central.php"; }
+elseif ($Sec == "editar") 					{ include "editar.php"; }
+elseif ($Sec == "modulo") 					{ include "modulo.php"; }
+elseif ($Sec == "plugin") 					{ include "plugin.php"; }
 
 else {include "pg_erro.php";}
 

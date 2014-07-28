@@ -1,26 +1,29 @@
-<form method="post">
 <?php
 
 	$dados = $base::dados_post();
+
 	$classe;
-	switch ($url[1]) 
+	
+	switch ($url[1])
 	{
 		case 'textos':
 			$classe = new Textos();
 			break;
 		case 'imagem':
 			$classe = new Imagem();
-			break;	
+			break;
 		case 'formularios':
 			$classe = new Formularios();
-		break;			
+		break;
 		case 'itens':
 			$classe = new Itens();
-		break;		
+		break;
 	}
 
-	$classe->backend($url[2],$dados);
+	$campos = $classe->backend($url[2],$dados);
+
+	$formulario =  new Formularios();
+
+	$formulario->form($campos,'','ENVIAR','');
 
 ?>
-<button>ENVIAR</button>
-</form>

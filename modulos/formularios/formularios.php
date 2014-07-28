@@ -1,6 +1,6 @@
 <?php
 	class Objeto_formulario
-	{	
+	{
 		public $nome_posicao;
 		public $name;
 		public $tipo;
@@ -32,7 +32,7 @@
                       `ordem` int(5) NOT NULL,
                                      `default` int(2) NOT NULL,
                       PRIMARY KEY (`ID`)
-                    ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Padrao de formularios' AUTO_INCREMENT=1;       
+                    ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Padrao de formularios' AUTO_INCREMENT=1;
             ";
 
             $this->slq_comando_insert($sql);
@@ -41,7 +41,7 @@
                   `ID` int(11) NOT NULL AUTO_INCREMENT,
                   `nome` varchar(255) NOT NULL,
                   PRIMARY KEY (`ID`)
-                ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Padrao de formularios' AUTO_INCREMENT=1;       
+                ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Padrao de formularios' AUTO_INCREMENT=1;
             ";
 
             $this->slq_comando_insert($sql);
@@ -56,7 +56,7 @@
 			}
 
 			function slq_monta_form($posicao = '')
-			{      		
+			{
 				$campos = array('name','tipo','mask','maxlenth','opcoes_json','options','label','ordem');
 				 //$campos = array('name');
 				 $where = array('id_pagina'=>$this->id_pagina,'id_posicao'=>$posicao);
@@ -83,7 +83,7 @@
 										$var = explode(',',$campo['opcoes_json']);
 
 										echo '<select name="'.$campo['name'].'" required>';
-										 
+
 												foreach($var as $chave => $value){
 													   $ch = explode('|',$value);
 													   echo '<option value="'.$ch[0].'">'.$ch[1].'</option>';
@@ -105,8 +105,8 @@
 
 										echo '<span>'.$campo['label'].'</span>';
 
-										$var = explode(',',$campo['opcoes_json']);                                            
-								 
+										$var = explode(',',$campo['opcoes_json']);
+
 										foreach($var as $chave => $value){
 											$ch = explode('|',$value);
 											echo '<input type="radio" name="'.$campo['name'].'" value="'.$ch[0].'" />'.$ch[1];
@@ -119,8 +119,8 @@
 
 										echo '<span>'.$campo['label'].'</span>';
 
-										$var = explode(',',$campo['opcoes_json']);                                            
-								 
+										$var = explode(',',$campo['opcoes_json']);
+
 										foreach($var as $chave => $value){
 											$ch = explode('|',$value);
 											echo '<input type="checkbox" name="'.$campo['name'].'" value="'.$ch[0].'" />'.$ch[1];
@@ -141,7 +141,7 @@
                 //echo $sql;
 
                 $this->slq_comando_insert($sql);
-		          
+
 			}
 
 			function formulario_back_test(){
@@ -192,7 +192,7 @@
                 $inp .= '<input name="opcoes_json_formulario" placeholder="OPTION_JSON" type="text" maxlenth="500" />';
 
                 return $inp;
-				
+
 			}
 
 
@@ -219,7 +219,7 @@
                 {
 
                                 $campos =  array('nome' => $nome_posicao);
-                                
+
                                 $retorno_id = $this->sql_insert_otimizado('formulario',$campos);
 
                                 $ultimo_id = $retorno_id;
@@ -231,12 +231,12 @@
 
                                 $obj->name = 'nome';
 
-                                $obj->label = 'Nome:';              
+                                $obj->label = 'Nome:';
 
                     $obj->mask =  '';
-                    
-                    $obj->maxlenth = ''; 
-                    
+
+                    $obj->maxlenth = '';
+
                     $obj->opcoes_json = '';
 
                                 $default = '1';
@@ -245,7 +245,7 @@
 
                                 $campos = array('nome');
                                 $where = array('ID'=>$ultimo_id,'nome'=>$nome_posicao);
-                                $nome_posicao = $this->sql_select_otimizado('formulario',$campos,$where);                            
+                                $nome_posicao = $this->sql_select_otimizado('formulario',$campos,$where);
 
                     echo $this->slq_monta_form($nome_posicao[0]['nome']);
 
@@ -257,113 +257,134 @@
                  }
 			}*/
 
-    function estrutura_option($obj,$default = false)
-    {
-        $opt = '';
-        $count = 1;
-        foreach ($obj as $chave => $valor) 
-        {
-            if($default == true){
-                $chave = $chave + 1;
-            }
+  function estrutura_option($obj,$default = false)
+  {
+      $opt = '';
+      $count = 1;
+      foreach ($obj as $chave => $valor)
+      {
+          if($default == true){
+              $chave = $chave + 1;
+          }
 
-            if($count == 1){
-                $opt .= $chave.'|'.$valor;
-            } else {
-                $opt .= ','.$chave.'|'.$valor;
-            }
+          if($count == 1){
+              $opt .= $chave.'|'.$valor;
+          } else {
+              $opt .= ','.$chave.'|'.$valor;
+          }
 
-            $count ++;
-        }
+          $count ++;
+      }
 
-        return $opt;
+      return $opt;
 
-    }
+  }
 
-	///WARLLEN 
+	//WARLLEN
+	function form($campos,$form_id = null,$nome_botao = null,$action_form = null)
+	{
+		echo "<form id='".$form_id."' action='".$action_form."' method='post'>";
+		echo $campos;
+		echo "<button>".$nome_botao."</button>";
+		echo "</form>";
+	}
+
+
+	//WARLLEN
 	function formulario_template($campos)
 	{
-        
-        $var = (array)$campos;
-        $arrayNovo = $this->array_sort($var, 'ordem', SORT_ASC);
 
+    $var = (array)$campos;
+
+    $arrayNovo = $this->array_sort($var, 'ordem', SORT_ASC);
+
+		$form = "";
 		foreach($arrayNovo as $campo)
 		{
 			switch($campo['tipo'])
 			{
 				 case 'input':
-								echo '<div>';
-								echo '<span>'.$campo['label'].'</span>';
-								echo '<input type="text" name="'.$campo['name'].'" value="'.$campo['value'].'" maxlength="'.$campo['maxlenth'].'" required />';
-								echo '</div>';
+								$form.= '<div>';
+								$form.= '<span>'.$campo['label'].'</span>';
+								$form.= '<input type="text" name="'.$campo['name'].'" value="'.$campo['value'].'" maxlength="'.$campo['maxlenth'].'" required />';
+								$form.= '</div>';
 				 break;
 
-				 case 'select':
-							echo '<div>';
+				case 'hidden':
+							$form.= '<div>';
+							$form.= '<span>'.$campo['label'].'</span>';
+							$form.= '<input type="hidden" name="'.$campo['name'].'" value="'.$campo['value'].'" maxlength="'.$campo['maxlenth'].'" required />';
+							$form.= '</div>';
+				break;
 
-									echo '<span>'.$campo['label'].'</span>';
+				 case 'select':
+							$form.= '<div>';
+
+									$form.= '<span>'.$campo['label'].'</span>';
 
 									$var = explode(',',$campo['opcoes_json']);
 
-									echo '<select name="'.$campo['name'].'" required>';
-									 
+									$form.= '<select name="'.$campo['name'].'" required>';
+
 													foreach($var as $chave => $value){
 														$ch = explode('|',$value);
                                                         if($campo['value'] == $ch[0]){
-														    echo '<option  value="'.$ch[0].'" selected>'.$ch[1].'</option>';
+														    $form.= '<option  value="'.$ch[0].'" selected>'.$ch[1].'</option>';
                                                         } else {
-                                                            echo '<option  value="'.$ch[0].'">'.$ch[1].'</option>';
+                                                            $form.= '<option  value="'.$ch[0].'">'.$ch[1].'</option>';
                                                         }
 													}
 
-									echo '</select>';
-							echo '</div>';
+									$form.= '</select>';
+							$form.= '</div>';
 				 break;
 
 				 case 'textarea':
-								echo '<div>';
-								echo '<span>'.$campo['label'].'</span>';
-								echo '<textarea name="'.$campo['name'].'">'.$campo['value'].'</textarea>';
-								echo '</div>';
+								$form.= '<div>';
+								$form.= '<span>'.$campo['label'].'</span>';
+								$form.= '<textarea name="'.$campo['name'].'">'.$campo['value'].'</textarea>';
+								$form.= '</div>';
 				 break;
 
 				 case 'radio':
-							echo '<div>';
+							$form.= '<div>';
 
-									echo '<span>'.$campo['label'].'</span>';
+									$form.= '<span>'.$campo['label'].'</span>';
 
-									$var = explode(',',$campo['opcoes_json']);                                            
-					 
+									$var = explode(',',$campo['opcoes_json']);
+
 									foreach($var as $chave => $value){
 											$ch = explode('|',$value);
                                             if($campo['value'] == $ch[0]){
-											     echo '<input type="radio" name="'.$campo['name'].'" checked value="'.$ch[0].'" />'.$ch[1];
+											     $form.= '<input type="radio" name="'.$campo['name'].'" checked value="'.$ch[0].'" />'.$ch[1];
                                             } else {
-                                                echo '<input type="radio" name="'.$campo['name'].'" value="'.$ch[0].'" />'.$ch[1];
+                                                $form.= '<input type="radio" name="'.$campo['name'].'" value="'.$ch[0].'" />'.$ch[1];
                                             }
 									}
-							echo '</div>';
+							$form.= '</div>';
 				 break;
 
 				 case 'checkbox':
-							echo '<div>';
+							$form.= '<div>';
 
-									echo '<span>'.$campo['label'].'</span>';
+									$form.= '<span>'.$campo['label'].'</span>';
 
-									$var = explode(',',$campo['opcoes_json']);                                            
-					 
+									$var = explode(',',$campo['opcoes_json']);
+
 									foreach($var as $chave => $value){
 											$ch = explode('|',$value);
                                             if($campo['value'] == $ch[0]){
-										        echo '<input type="checkbox" name="'.$campo['name'].'" checked value="'.$ch[0].'" />'.$ch[1];
+										        $form.= '<input type="checkbox" name="'.$campo['name'].'" checked value="'.$ch[0].'" />'.$ch[1];
                                             } else {
-                                                echo '<input type="checkbox" name="'.$campo['name'].'" value="'.$ch[0].'" />'.$ch[1];
+                                                $form.= '<input type="checkbox" name="'.$campo['name'].'" value="'.$ch[0].'" />'.$ch[1];
                                             }
 									}
-							echo '</div>';
+							$form.= '</div>';
 				 break;
 			}
 		}
+
+		return $form;
 	}
 }
 
