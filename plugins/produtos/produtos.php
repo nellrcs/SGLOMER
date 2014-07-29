@@ -38,7 +38,13 @@
 
 				$obj->descricao = array('name'=>'descricao','label'=>'Descricao','tipo'=>'textarea','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>4,'value'=>'');
 
-				$obj->imagem = array('name'=>'imagem','label'=>'Imagem','tipo'=>'input','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>5,'value'=>'');
+				$obj->peso = array('name'=>'peso','label'=>'peso','tipo'=>'input','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>5,'value'=>'');
+
+				$obj->cor = array('name'=>'cor','label'=>'cor','tipo'=>'input','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>6,'value'=>'');
+
+				$obj->quantidade = array('name'=>'quantidade','label'=>'quantidade','tipo'=>'input','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>7,'value'=>'');
+
+				$obj->imagem = array('name'=>'imagem','label'=>'Imagem','tipo'=>'input','mask'=>'ttt','maxlenth'=>'10','opcoes_json','options','ordem'=>8,'value'=>'');
 
 				$itens::$nome_tabela = 'produtos';
 
