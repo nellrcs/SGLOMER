@@ -139,7 +139,6 @@
             //mod texto lista textos
             public function mod_text_lista()
             {
-
                 $array = array();
 
                 $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$this->id_pagina' GROUP BY posicao");

@@ -4,33 +4,27 @@
 	{		
 
 		public $icone = "http://www.iconesbr.net/iconesbr/2008/07/263/263_256x256.png";
+                
+		public $id_pagina;
 
-        public $sql_imagem = "CREATE TABLE IF NOT EXISTS `imagem` (
-          `ID` int(11) NOT NULL AUTO_INCREMENT,
-          `nome` varchar(200) NOT NULL,
-          `grupo` varchar(200) NOT NULL,
-          `arquivo` longblob NOT NULL,
-          PRIMARY KEY (`ID`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";	
-
-		public $imagen_relacionada = "CREATE TABLE IF NOT EXISTS `imagem_rl` (
-          `ID` int(11) NOT NULL AUTO_INCREMENT,
-          `id_pagina` int(11) NOT NULL,
-          `id_imagem` int(11) NOT NULL,
-          `posicao` varchar(200) NOT NULL,
-          PRIMARY KEY (`ID`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";	
-
-		function Imagem()
+		function Imagem($id_pagina)
 		{
-
+                    $this->id_pagina = $id_pagina;
 		}
 
 		function montar_imagem()
 		{
-			$this->sql_comando($this->sql_imagem);
-
-			$this->sql_comando($this->imagen_relacionada);	
+                    $campos_valores = array("`nome` varchar(200) NOT NULL","`grupo` varchar(200) NOT NULL","`arquivo` longblob NOT NULL"); 
+            
+                    $this->sql_criar_tabela('imagem', $campos_valores);
+                    /*
+                     * ******************************
+                     * ******************************
+                     */			
+                    $campos_valores2 = array("`id_pagina` int(11) NOT NULL","`id_imagem` int(11) NOT NULL","`posicao` varchar(200) NOT NULL"); 
+            
+                    $this->sql_criar_tabela('imagem_rl', $campos_valores2);
+                    
 		}
 
 		function upload_imagem($arquivo_imagem,$nome_imagem,$grupo)
@@ -126,10 +120,10 @@
 		}
 
 
-		function define_insere_imagem($id_pagina,$posicao,$imagem = null,$tag = false)
+		function define_insere_imagem($posicao,$imagem = null,$tag = false)
 		{
 			
-			$img = $this->mod_imagem($id_pagina,$posicao,$imagem);
+			$img = $this->mod_imagem($this->id_pagina,$posicao,$imagem);
 
 			if($tag == true)
 			{	

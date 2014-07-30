@@ -17,3 +17,5 @@
 *.out
 *.app
 /nbproject/private/
+/galeria/nbproject/private/
+/galeria/p/nbproject/private/

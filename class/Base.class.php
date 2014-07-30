@@ -293,11 +293,11 @@
 
 
             //LISTA IMAGENS
-            $imagem = new Imagem();
-
-            $grupo = 'grupo_pagina_'.self::$id_pagina;
-
-            $para_a_pagina[] = array('imagens'=>$imagem->lista_imagens($grupo));
+//            $imagem = new Imagem();
+//
+//            $grupo = 'grupo_pagina_'.self::$id_pagina;
+//
+//            $para_a_pagina[] = array('imagens'=>$imagem->lista_imagens($grupo));
 
 
            return $para_a_pagina;
