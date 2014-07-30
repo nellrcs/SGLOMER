@@ -14,6 +14,8 @@
 
         public $id_pagina;
 
+        public $icone = "http://www.mistersabido.com/wp-content/uploads/2014/05/icone-texto.png";
+
         //Constroi a classe Textos
         function __construct($id_pagina = null)
         {
@@ -125,7 +127,7 @@
 
                     if($prefixo_plugin == $novo)
                     {
-                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos');
+                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos','icone'=>'');
                     }
 
                 }
@@ -150,7 +152,7 @@
 
                     if("PLUGIN_" != $novo)
                     {
-                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos');
+                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos','icone'=>$this->icone);
                     }
                 }
 

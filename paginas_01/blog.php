@@ -2,7 +2,7 @@
 <?php 
 	//TEXTO
 	$textos_pag_home = new Textos($base::$id_pagina);
-
+	$iimga = new Imagem($base::$id_pagina);
 
 	$base::$nome_plugin = 'googlemaps';  
 	$obj = $base::obj_plugin();
@@ -10,7 +10,7 @@
    	
 
 
-
+	
 
 ?>
 
@@ -28,6 +28,6 @@
 <div><?php echo $textos_pag_home->preciso_texto_aqui('TEXTO_BLOG7', 0, 'vvvvv', 'nt'); ?></div>
 
 
-
-
 <div><?php echo $base::front_end($obj); ?></div>
+
+<div><?php echo $iimga->define_insere_imagem($base::$id_pagina,'mechendo_blog','http://img2.wikia.nocookie.net/__cb20100528223948/wikinaruto/pt/images/0/03/Mangekyou_Madara_Icone.png',true); ?></div>

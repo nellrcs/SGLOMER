@@ -9,6 +9,8 @@
 	{
 			public $id_pagina;
 
+			public $icone = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRTXSfqHH4K7eboQO6xQnW-bulqdXQbZyRyPIDnpSlG8DuQ5ZHsPrmv1ue7";
+
 			function Googlemaps($id_pagina)
 			{	
 				$this->id_pagina = $id_pagina;
@@ -78,8 +80,18 @@
 				$bol = new Textos($this->id_pagina);
 
 				$lista = $bol->mod_text_lista_plugin('PLUGIN_GOOGLEMAPS');
+				
+				$nova_lista = array();
 
-				return $lista;
+				foreach ($lista as $key => $value) 
+				{
+					$nova_lista[$key]['ID'] 		= $value['ID'];
+					$nova_lista[$key]['posicao'] 	= $value['posicao'];
+					$nova_lista[$key]['editar'] 	= $value['editar'];
+					$nova_lista[$key]['icone'] 		= $this->icone;
+				}
+
+				return $nova_lista;
 			}
 
 			/* TODOS */

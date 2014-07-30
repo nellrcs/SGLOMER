@@ -40,7 +40,7 @@
 
 
 <?php
-      function item_lista_html($nome,$id,$modulo,$chave)
+      function item_lista_html($nome,$id,$modulo,$chave,$icone='http://placehold.it/120x120')
       {
 
 
@@ -53,7 +53,7 @@
 
                 $html .= "<div class='col-sm-6 col-md-4'>";
                   $html .= "<a href='editar/$modulo/$id.html' class='thumbnail'>";
-                    $html .= "<img src='http://placehold.it/120x120' alt='...'>";
+                    $html .= "<img src='$icone' alt='...' width='120' height='120'>";
                    $html .= "</a>";
                 $html .= "</div>";
 
@@ -86,9 +86,8 @@
             {
               
 
-              echo item_lista_html($d['posicao'],$d['ID'],$d['editar'],$chave);
+              echo item_lista_html($d['posicao'],$d['ID'],$d['editar'],$chave,$d['icone']);
 
-              
 
             }
           }

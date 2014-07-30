@@ -3,6 +3,8 @@
 	class Imagem extends Principal
 	{		
 
+		public $icone = "http://www.iconesbr.net/iconesbr/2008/07/263/263_256x256.png";
+
         public $sql_imagem = "CREATE TABLE IF NOT EXISTS `imagem` (
           `ID` int(11) NOT NULL AUTO_INCREMENT,
           `nome` varchar(200) NOT NULL,
@@ -168,7 +170,7 @@
 				foreach ($dados as $dado) 
 				{
 
-					$array[] = array('ID'=>$dado['ID'],'posicao'=>$grupo,'editar'=>'imagem');
+					$array[] = array('ID'=>$dado['ID'],'posicao'=>$grupo,'editar'=>'imagem','icone'=>$this->icone);
 				}
 
 				return $array;
