@@ -1,3 +1,4 @@
+
 <?php
 	class Googlemaps_obj
 	{
@@ -77,6 +78,7 @@
 			public function plugin_lista()
 			{
 
+
 				$bol = new Textos($this->id_pagina);
 
 				$lista = $bol->mod_text_lista_plugin('PLUGIN_GOOGLEMAPS');
@@ -89,6 +91,7 @@
 					$nova_lista[$key]['posicao'] 	= $value['posicao'];
 					$nova_lista[$key]['editar'] 	= $value['editar'];
 					$nova_lista[$key]['icone'] 		= $this->icone;
+					$nova_lista[$key]['prev'] 		= $value['prev'];
 				}
 
 				return $nova_lista;
@@ -98,6 +101,7 @@
 			public function front($obj)
 			{			
 				
+
 				$nome = $obj->nome_posicao_plugin;
 
 				$this->define_insere_googlemaps($nome);
@@ -106,6 +110,7 @@
 			public function back()
 			{			
 				$this->googlemaps_backend();
+
 			}
 
 

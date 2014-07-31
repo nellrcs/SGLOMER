@@ -40,13 +40,13 @@
 
 
 <?php
-      function item_lista_html($nome,$id,$modulo,$chave,$icone='http://placehold.it/120x120')
+      function item_lista_html($nome,$id,$modulo,$chave,$icone='http://placehold.it/120x120',$prev='')
       {
 
 
           $html = "<div class='mix $chave' data-myorder='$id'>";
             $html .= "<div class='panel panel-default'>";
-              $html .= "<div class='panel-heading'><strong class='text-info'>$nome</strong>";
+              $html .= "<div class='panel-heading'><strong class='text-info'>$prev</strong>";
               $html .= "</div>";
 
               $html .= "<div class='panel-body'>";
@@ -86,7 +86,7 @@
             {
               
 
-              echo item_lista_html($d['posicao'],$d['ID'],$d['editar'],$chave,$d['icone']);
+              echo item_lista_html($d['posicao'],$d['ID'],$d['editar'],$chave,$d['icone'],$d['prev']);
 
 
             }

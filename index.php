@@ -1,12 +1,13 @@
 <?php
-	require_once './class/Principal.class.php';
+
+    require_once './class/Principal.class.php';
 
 	//INCLUI MODULO FIXO
-	include ('./modulos/textos/textos.php');
+    include ('./modulos/textos/textos.php');
 
-  include ('./modulos/imagem/imagem.php');
+     include ('./modulos/imagem/imagem.php');
 
-	include ('./modulos/formularios/formularios.php');
+    include ('./modulos/formularios/formularios.php');
 
 
   //INCLUI MODULO

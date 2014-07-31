@@ -109,6 +109,7 @@
                 {
                    $this->mod_texto_update($chave,$val);
                 }
+
             }
 
             //lista plugins que usam textos na pagina
@@ -127,7 +128,7 @@
 
                     if($prefixo_plugin == $novo)
                     {
-                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos','icone'=>'');
+                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos','icone'=>'','prev'=>$row1['texto']);
                     }
 
                 }
@@ -152,7 +153,7 @@
 
                     if("PLUGIN_" != $novo)
                     {
-                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos','icone'=>$this->icone);
+                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos','icone'=>$this->icone,'prev'=>$row1['texto']);
                     }
                 }
 
@@ -223,6 +224,10 @@
                 $select_texto2 = $this->sql_select_otimizado('textos',$campos2,$where2);
 
                 $formulario = self::campo_form($select_texto2);
+
+
+
+
 
 
 /*
@@ -296,3 +301,4 @@
 //---------------------------------------------////
 
 ?>
+

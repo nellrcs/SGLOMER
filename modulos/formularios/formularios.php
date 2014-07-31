@@ -285,7 +285,8 @@
 	{
 		echo "<form id='".$form_id."' action='".$action_form."' method='post'>";
 		echo $campos;
-		echo "<button>".$nome_botao."</button>";
+		echo "<br>";
+		echo "<button class='btn btn-primary'>".$nome_botao."</button>";
 		echo "</form>";
 	}
 
@@ -306,7 +307,7 @@
 				 case 'input':
 								$form.= '<div>';
 								$form.= '<span>'.$campo['label'].'</span>';
-								$form.= '<input type="text" name="'.$campo['name'].'" value="'.$campo['value'].'" maxlength="'.$campo['maxlenth'].'" required />';
+								$form.= '<input type="text" name="'.$campo['name'].'" class="form-control" value="'.$campo['value'].'"  maxlength="'.$campo['maxlenth'].'" required />';
 								$form.= '</div>';
 				 break;
 
@@ -342,7 +343,7 @@
 				 case 'textarea':
 								$form.= '<div>';
 								$form.= '<span>'.$campo['label'].'</span>';
-								$form.= '<textarea name="'.$campo['name'].'">'.$campo['value'].'</textarea>';
+								$form.= '<textarea name="'.$campo['name'].'" class="form-control">'.$campo['value'].'</textarea>';
 								$form.= '</div>';
 				 break;
 

@@ -170,7 +170,7 @@
 				foreach ($dados as $dado) 
 				{
 
-					$array[] = array('ID'=>$dado['ID'],'posicao'=>$grupo,'editar'=>'imagem','icone'=>$this->icone);
+					$array[] = array('ID'=>$dado['ID'],'posicao'=>$grupo,'editar'=>'imagem','icone'=>$this->icone,'prev'=>'IMAGEM SEM NOME');
 				}
 
 				return $array;
