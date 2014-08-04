@@ -3,8 +3,8 @@
 	$dados = $base::dados_post();
 
 	$classe;
-	
-	switch ($url[1])
+	$tipo = $url[1];
+	switch ($tipo)
 	{
 		case 'textos':
 			$classe = new Textos();
@@ -18,6 +18,17 @@
 		case 'itens':
 			$classe = new Itens();
 		break;
+                default :
+	        foreach ( $base::ativos('plugins') as $valor) 
+			{
+	        	if($valor['nome'] == $tipo)
+	        	{
+	        		$tipo =  ucfirst($tipo);
+	        		$classe = new $tipo();
+	        	}	
+	        }
+	        ;break;    
+
 	}
 
 	$campos = $classe->backend($url[2],$dados);

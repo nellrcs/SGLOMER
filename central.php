@@ -23,19 +23,20 @@
 
 </script>
 
-<ul class="nav nav-pills">
-  <li class="active"><a href="#">Home</a></li>
-  <li><a class="filter" data-filter="all">Todos</a></li>
-  <li><a class="filter" data-filter=".plugins">Plugins</a></li>
-  <li><a class="filter" data-filter=".textos">Textos</a></li>
-  <li><a class="sort" data-sort="default">Default</a></li>
-  <li><a class="sort" data-sort="myorder:asc">Crescente</a></li>
-  <li><a class="sort" data-sort="myorder:desc">Decrescente</a></li>
-  <li><a class="sort" data-sort="random">Radomico</a></li>
-</ul>
+<div class="btn-toolbar" role="toolbar">
+      <div class="btn-group">
+        <a class="btn btn-primary btn-lg filter" href="#"><span class="glyphicon glyphicon-home"></span></a>
+        <a class="btn btn-primary btn-lg filter" data-filter="all"><span class="glyphicon glyphicon-asterisk"></span></a>
+        <a class="btn btn-primary btn-lg filter" data-filter=".plugins"><span class="glyphicon glyphicon-gift"></span></a>
+        <a class="btn btn-primary btn-lg filter" data-filter=".textos"><span class="glyphicon glyphicon-font"></span></a>
+        <a class="btn btn-primary btn-lg filter" data-filter=".imagens"><span class="glyphicon glyphicon-picture"></span></a>
+        <a class="btn btn-primary btn-lg sort" data-sort="default"><span class="glyphicon glyphicon-refresh"></span></a>
+        <a class="btn btn-primary btn-lg sort" data-sort="myorder:asc"><span class="glyphicon glyphicon-hand-up"></span></a>
+        <a class="btn btn-primary btn-lg sort" data-sort="myorder:desc"><span class="glyphicon glyphicon-hand-down"></span></a>
+        <a class="btn btn-primary btn-lg sort" data-sort="random"><span class="glyphicon glyphicon-question-sign"></span></a>
+      </div>
+    </div>
 <br>
-
-
 
 
 
@@ -46,7 +47,7 @@
 
           $html = "<div class='mix $chave' data-myorder='$id'>";
             $html .= "<div class='panel panel-default'>";
-              $html .= "<div class='panel-heading'><strong class='text-info'>$prev</strong>";
+              $html .= "<div class='panel-heading'><span class='badge'>42</span><strong class='text-info'>$prev</strong>";
               $html .= "</div>";
 
               $html .= "<div class='panel-body'>";
@@ -86,7 +87,7 @@
             {
               
 
-              echo item_lista_html($d['posicao'],$d['ID'],$d['editar'],$chave,$d['icone'],$d['prev']);
+              echo item_lista_html($d->posicao,$d->id,$d->editar,$chave,$d->icone,$d->prev);
 
 
             }
