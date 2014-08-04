@@ -415,8 +415,7 @@ class Itens extends Base
               }).change();
 
         </script>
-
-        <?     
+        <?php     
         }
                 
 
@@ -494,7 +493,7 @@ class Itens extends Base
 	}
 
         
-        public static function apagar_item($item_id)
+    public static function apagar_item($item_id)
 	{
 		$principal = new Principal();
 
@@ -562,7 +561,6 @@ class Itens extends Base
 
 
 	}
-
 
 }
 ?>
