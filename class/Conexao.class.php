@@ -2,18 +2,14 @@
 
 	class Conexao
 	{
-		public function conecta(){
+		public function conecta()
+                {
 
 			$conn = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD) or die(mysql_error());
 			$Select = mysql_select_db(DB_DATABASE) or die (mysql_error());
 
 		}
 
-		public function criar_table($string){
-			$quer = mysql_query($string) or die(mysql_error());
-		}
-
-		//a funcao criar_table nao faz sentido por que ela não eh especifica
 		public static function sql_comando($string){
 			$quer = mysql_query($string) or die(mysql_error());
 		}
@@ -199,9 +195,41 @@
 			return true;
 		}
 
+                public function slq_apagar_otimizado($tabela,$where = array())
+                {
+                    $string = "DELETE FROM ".$tabela;
+                    
+                    $string .= " WHERE ";
 
+			$i = 1;
 
-		function sql_criar_tabela($tabela,$campos_valores)
+			foreach($where as $nome => $valor)
+			{
+
+				$string .= $nome. "=".'\''.addslashes($valor).'\'';
+
+				if ($i != count($where))
+				{
+					$string .= ' and ';
+				}
+
+				$i++;
+			}
+                    
+                    
+                    $quer =  mysql_query($string) or die(mysql_error());
+                    
+                    return true;
+                }   
+                
+                
+                public function sql_apagar_tabela($tabela)
+                {
+                    $string = "DROP TABLE " .$tabela;
+                    $quer =  mysql_query($string) or die(mysql_error());
+                }        
+
+                public static function sql_criar_tabela($tabela,$campos_valores)
 		{
 
 
@@ -254,6 +282,9 @@
 				case 'checkbox':
 					$campo = " `".$nome."` text NOT NULL DEFAULT '' ";
 				break;
+                            default : 
+                                $campo = " `".$nome."` text NOT NULL DEFAULT '' ";
+                                break;
 
 			}
 

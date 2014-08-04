@@ -305,46 +305,46 @@
 			switch($campo['tipo'])
 			{
 				 case 'input':
-								$form.= '<div>';
-								$form.= '<span>'.$campo['label'].'</span>';
-								$form.= '<input type="text" name="'.$campo['name'].'" class="form-control" value="'.$campo['value'].'"  maxlength="'.$campo['maxlenth'].'" required />';
-								$form.= '</div>';
+                                    $form.= '<div>';
+                                    $form.= '<span>'.$campo['label'].'</span>';
+                                    $form.= '<input type="text" name="'.$campo['name'].'" class="form-control" value="'.$campo['value'].'"  maxlength="'.$campo['maxlenth'].'" required />';
+                                    $form.= '</div>';
 				 break;
 
 				case 'hidden':
-							$form.= '<div>';
-							$form.= '<span>'.$campo['label'].'</span>';
-							$form.= '<input type="hidden" name="'.$campo['name'].'" value="'.$campo['value'].'" maxlength="'.$campo['maxlenth'].'" required />';
-							$form.= '</div>';
+                                    $form.= '<div>';
+                                    //$form.= '<span>'.$campo['label'].'</span>';
+                                    $form.= '<input type="hidden" name="'.$campo['name'].'" value="'.$campo['value'].'" maxlength="'.$campo['maxlenth'].'" required />';
+                                    $form.= '</div>';
 				break;
 
 				 case 'select':
-							$form.= '<div>';
+                                    $form.= '<div>';
 
-									$form.= '<span>'.$campo['label'].'</span>';
+                                        $form.= '<span>'.$campo['label'].'</span>';
 
-									$var = explode(',',$campo['opcoes_json']);
+                                        $var = explode(',',$campo['opcoes_json']);
 
-									$form.= '<select name="'.$campo['name'].'" required>';
+                                        $form.= '<select name="'.$campo['name'].'" class="form-control" required>';
 
-													foreach($var as $chave => $value){
-														$ch = explode('|',$value);
-                                                        if($campo['value'] == $ch[0]){
-														    $form.= '<option  value="'.$ch[0].'" selected>'.$ch[1].'</option>';
-                                                        } else {
-                                                            $form.= '<option  value="'.$ch[0].'">'.$ch[1].'</option>';
-                                                        }
-													}
+                                    foreach($var as $chave => $value){
+                                         $ch = explode('|',$value);
+                                    if($campo['value'] == $ch[0]){
+                                        $form.= '<option  value="'.$ch[0].'" selected>'.$ch[1].'</option>';
+                                    } else {
+                                        $form.= '<option  value="'.$ch[0].'">'.$ch[1].'</option>';
+                                    }
+                                        }
 
-									$form.= '</select>';
+                                                    $form.= '</select>';
 							$form.= '</div>';
 				 break;
 
 				 case 'textarea':
-								$form.= '<div>';
-								$form.= '<span>'.$campo['label'].'</span>';
-								$form.= '<textarea name="'.$campo['name'].'" class="form-control">'.$campo['value'].'</textarea>';
-								$form.= '</div>';
+                                            $form.= '<div>';
+                                            $form.= '<span>'.$campo['label'].'</span>';
+                                            $form.= '<textarea name="'.$campo['name'].'" class="form-control">'.$campo['value'].'</textarea>';
+                                            $form.= '</div>';
 				 break;
 
 				 case 'radio':
@@ -382,6 +382,15 @@
 									}
 							$form.= '</div>';
 				 break;
+                                 
+
+                                 case 'imagem' : 
+                                  $form.= '<div></br>';   
+                                  $form.= '<div>'.$campo['label'].'</div>';   
+                                  $form.= '<button class="btn btn-default btn-lg" data-toggle="modal" onclick="return false;" data-target="#myModal"><img src="'.$this->tem_imgem($campo['value'],100,100).'" alt="..." class="img-thumbnail"></button>';
+                                  $form.= "</div>";
+
+                                 ;break;    
 			}
 		}
 

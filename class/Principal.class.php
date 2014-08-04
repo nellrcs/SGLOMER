@@ -1,24 +1,22 @@
 <?php
-	include 'Conexao.class.php';
+	
 
 	class Principal extends Conexao
 	{
 	
-        function __construct() {
-    		include_once 'configura.php';
-    		$this->conecta();
+        function __construct() 
+        {
+            $this->conecta();
         }
 
-
-        public static function caminho_diretorio(){
+        public static function caminho_diretorio()
+        {
         	$caminho_diretorio = new Principal();
-
         	return DIR_SISTEMA;
         }
 
         public static function caminho_url(){
             $caminho_url = new Principal();
-
             return URL_SISTEMA;
         }
 
@@ -26,7 +24,7 @@
 		{
 			$adir =  './'.$nome_diretorio;
                         
-            $lista_nomes = array();
+                        $lista_nomes = array();
                         
 			if ($local = opendir($adir)) 
 			{
@@ -96,11 +94,31 @@
             return $lista;     
         }
 
-
         public static function pagina_erro()
         {
             echo '<script type="text/javascript">location.href="404.php";</script>';
         }
+        
+        public static function menssagem($msg,$tipo)
+        {
+            switch ($tipo)
+            {
+                case 'sucesso':
+                    return "<div class='alert alert-success alert-dismissible' role='alert'>".$msg."<button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Fechar</span></button></div>";
+                    break;  
+                case 'informacao':
+                    return "<div class='alert alert-info alert-dismissible' role='alert'>".$msg."<button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Fechar</span></button></div>";
+                    break; 
+                case 'cuidado':
+                    return "<div class='alert alert-warning alert-dismissible' role='alert'>".$msg."<button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Fechar</span></button></div>";
+                    break; 
+                case 'erro':
+                    return "<div class='alert alert-danger alert-dismissible' role='alert'>".$msg."<button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Fechar</span></button></div>";
+                    break; 
+                default : return false;
+            }
+
+        }        
 
         public static function array_sort($array, $on, $order=SORT_ASC)
         {
@@ -138,5 +156,17 @@
         }
 
 
+            public static function tem_imgem($file,$w,$h)
+            {
+                if($file == "")
+                {
+                    return "http://placehold.it/{$w}x{$h}";
+                }   
+                else
+                {
+                  return $file;
+                }    
+                
+            }        
 	}
 ?>

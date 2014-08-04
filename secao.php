@@ -20,6 +20,7 @@ elseif ($Sec == "central") 					{ include "central.php"; }
 elseif ($Sec == "editar") 					{ include "editar.php"; }
 elseif ($Sec == "modulo") 					{ include "modulo.php"; }
 elseif ($Sec == "plugin") 					{ include "plugin.php"; }
+elseif ($Sec == "upload_de_imagem") 				{ include "upload_de_imagem.php"; }
 
 else {include "pg_erro.php";}
 

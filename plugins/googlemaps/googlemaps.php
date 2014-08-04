@@ -2,116 +2,143 @@
 <?php
 	class Googlemaps_obj
 	{
-		public $nome_posicao_plugin;
+            public $nome_posicao_plugin;
 	}
 
 
-	class Googlemaps extends Principal
+	class Googlemaps extends Base
 	{
-			public $id_pagina;
 
-			public $icone = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRTXSfqHH4K7eboQO6xQnW-bulqdXQbZyRyPIDnpSlG8DuQ5ZHsPrmv1ue7";
+                public $icone = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRTXSfqHH4K7eboQO6xQnW-bulqdXQbZyRyPIDnpSlG8DuQ5ZHsPrmv1ue7";
 
-			function Googlemaps($id_pagina)
-			{	
-				$this->id_pagina = $id_pagina;
-				
-				$this->montar_googlemaps();
-			}
+                function __construct()
+                {	
+                    $this->montar_googlemaps();
+                }
 
-			public function montar_googlemaps()
-			{
-				$sql_googlemaps = "CREATE TABLE IF NOT EXISTS `googlemaps` (
-		                      `ID` int(11) NOT NULL AUTO_INCREMENT,
-		                      `nome` text,
-		                      PRIMARY KEY (`ID`)
-		                    ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";	
+                public function montar_googlemaps()
+                {
 
-				$this->sql_comando($sql_googlemaps);
-			}
+                    $campos_valores = array("`nome` varchar(255) NOT NULL","`id_pagina` int(11) NOT NULL","`posicao` varchar(200) NOT NULL DEFAULT ''","`cep` varchar(255) NOT NULL","`endereco` text NOT NULL","`codigo` text NOT NULL");
+                    $this->sql_criar_tabela('googlemaps', $campos_valores);
+                }
 
+                public function html_plugin()
+                {
+                    $html = 'http://maps.googleapis.com/maps/api/staticmap?center=Maringa,+PR&zoom=8&scale=1&size=600x300&maptype=roadmap&sensor=false&format=png&visual_refresh=true&markers=size:small%7Ccolor:yellow%7CMaringa,+PR';
+                    return $html; 
+                }
+                
 
-			private  function define_insere_googlemaps($nome_posicao_plugin)
-			{
-				$bol = new Textos($this->id_pagina);
+                private  function define_insere_googlemaps($posicao)
+                {
 
-				$campos = array('ID','nome');
+                    $campos = array('ID','codigo');
 
-				$where = array('nome' => $nome_posicao_plugin);
+                    $where = array('posicao' => $posicao);
 
-				$plugin_googlemaps = $this->sql_select_otimizado('googlemaps',$campos,$where);
+                    $plugin_googlemaps = $this->sql_select_otimizado('googlemaps',$campos,$where);
 
+                     if( count($plugin_googlemaps) <= 0  )
+                     {
 
-				 if( count($plugin_googlemaps) <= 0  )
-				 {
+                            $campos_googlemaps =  array('posicao' => $posicao,'codigo'=>$this->html_plugin(),'id_pagina'=>self::$id_pagina);
 
-				 	$campos_googlemaps =  array('nome' => $nome_posicao_plugin);
-				
-					$retorno_id_plugin = $this->sql_insert_otimizado('googlemaps',$campos_googlemaps);
+                            $retorno_id_plugin = $this->sql_insert_otimizado('googlemaps',$campos_googlemaps);
 
-				 	$ultimo_id = $retorno_id_plugin;
+                            $ultimo_id = $retorno_id_plugin;
+                            
 
-				 	$bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$ultimo_id,'3',$nome_posicao_plugin,'');
+                            $where = array('ID' => $ultimo_id);
 
-				 	echo $bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$ultimo_id,'0','# GOOGLEMAPS #','');	
+                           $plugin_googlemaps = $this->sql_select_otimizado('googlemaps',$campos,$where);
 
-				 }
-				 else
-				 {
+                            return $plugin_googlemaps[0]['codigo'];
 
-				 	$gmaps = $plugin_googlemaps[0];
+                     }
+                     else
+                     {
+                            $gmaps = $plugin_googlemaps[0];
 
-				 	$bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'3',$nome_posicao_plugin,'');
+                            return $gmaps['codigo'];
+                     }	
 
-				 	echo $bol->preciso_texto_aqui('PLUGIN_GOOGLEMAPS_'.$gmaps['ID'],'0','# GOOGLEMAPS #','');	
+                }
+                
 
-				 }	
-	
-			}
-			
-			/* TODOS */
-			public function plugin_menu()
-			{
-				return false;
-			}
-			/* TODOS */
-			public function plugin_lista()
-			{
+                
+                function backend($id,$obj = null)
+                {
+     
+                     $formularios =  new Formularios();
 
+                     if(!empty($obj))
+                     {
+                         foreach($obj as $key => $value)
+                         {
+                             $campos[$key] = $value;    
+                         }
+                         
+                         $where = array('ID'=>$id);
+                         
+                         $this->sql_update_otimizado('googlemaps', $campos,$where);
+                         
+                         echo self::menssagem("<strong>Atualizado</strong> com sucesso !", 'sucesso');
+                     }
 
-				$bol = new Textos($this->id_pagina);
+                     $campos = array('ID','posicao','cep','endereco','codigo');
+                     
+                     $where = array('ID' => $id);
 
-				$lista = $bol->mod_text_lista_plugin('PLUGIN_GOOGLEMAPS');
-				
-				$nova_lista = array();
+                     $select = $this->sql_select_otimizado('googlemaps',$campos,$where); 
+                     
+                     $objx = new stdClass();
+                     
+                     $objx->codigo = array('name'=>'codigo','label'=>'Codigo','tipo'=>'textarea','mask'=>'ttt','maxlenth'=>'','opcoes_json','options','ordem'=>3,'value'=>$select[0]['codigo']);
+                     $objx->cep = array('name'=>'cep','label'=>'cep','tipo'=>'input','mask'=>'ttt','maxlenth'=>'','opcoes_json','options','ordem'=>1,'value'=>$select[0]['cep']);
+                     $objx->endereco = array('name'=>'endereco','label'=>'endereco','tipo'=>'input','mask'=>'ttt','maxlenth'=>'','opcoes_json','options','ordem'=>2,'value'=>$select[0]['endereco']);
+                     
+                     $html = $formularios->formulario_template($objx);
+                     
+                     return $html;
+                 }     
 
-				foreach ($lista as $key => $value) 
-				{
-					$nova_lista[$key]['ID'] 		= $value['ID'];
-					$nova_lista[$key]['posicao'] 	= $value['posicao'];
-					$nova_lista[$key]['editar'] 	= $value['editar'];
-					$nova_lista[$key]['icone'] 		= $this->icone;
-					$nova_lista[$key]['prev'] 		= $value['prev'];
-				}
+                /* TODOS */
+                public function plugin_menu()
+                {
+                        return false;
+                }
+                /* TODOS */
+                public function lista()
+                {
 
-				return $nova_lista;
-			}
+                    $array = array();
 
-			/* TODOS */
-			public function front($obj)
-			{			
-				
+                   
+                    
+                    $sql = mysql_query("SELECT * FROM googlemaps WHERE id_pagina='".self::$id_pagina."'");
 
-				$nome = $obj->nome_posicao_plugin;
+                    while( $row1 = mysql_fetch_array($sql) )
+                    {
+                        $obj = new obj_base();
+                        $obj->id = $row1['ID'];
+                        $obj->posicao = $row1['posicao'];
+                        $obj->editar = 'googlemaps';
+                        $obj->icone = $this->icone;
+                        $obj->prev = 'Plugin google maps';
+                        $array[] = $obj;   
+                    } 
+                    return $array;
+                }
 
-				$this->define_insere_googlemaps($nome);
-			}
-			/* TODOS */
-			public function back()
-			{			
-				$this->googlemaps_backend();
+                /* TODOS */
+                public function front($obj)
+                {			
+                        $nome = $obj->nome_posicao_plugin;
 
-			}
+                        $this->define_insere_googlemaps($nome);
+                }
+
 
 
 	}

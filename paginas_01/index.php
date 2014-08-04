@@ -1,23 +1,24 @@
 <?php
-  require_once './class/Principal.class.php';
+include './class/configura.php';
 
-  //INCLUI MODULO FIXO TEXTOS
-  include ('./modulos/textos/textos.php');
+include './class/Conexao.class.php';
 
-  include ('./modulos/formularios/formularios.php');
+include './class/Principal.class.php';
 
-  include ('./modulos/imagem/imagem.php');
+include './class/Base.class.php';
 
-  //INCLUI MODULO
-  include ('./modulos/itens/itens.php');
+include './modulos/textos/textos.php';
 
-  //INCLUIR BASE
-  include './class/Base.class.php';
+include './modulos/formularios/formularios.php';
 
+include './modulos/imagem/imagem.php';
 
-  $principal = new Principal();
+include './modulos/itens/itens.php';
+    
 
-  $base = new Base();
+$principal = new Principal();
+
+$base = new Base();
 
 ?>
 

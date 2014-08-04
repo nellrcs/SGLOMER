@@ -1,46 +1,21 @@
 <?php
-    class Tipo_textos
+    class Textos extends Base
     {
-        public $id;
-        public $id_pagina;
-        public $posicao;
-        public $tipo;
-        public $texto;
-    }
-
-    class Textos extends Principal
-    {
-
-
-        public $id_pagina;
 
         public $icone = "http://www.mistersabido.com/wp-content/uploads/2014/05/icone-texto.png";
 
         //Constroi a classe Textos
-        function __construct($id_pagina = null)
-        {
+            function __construct()
+            {
+                $this->montar_textos();
 
-            $this->id_pagina = $id_pagina;
-
-            $this->montar_textos();
-
-        }
+            }
 
             //Funcao que cria o banco de dados se ele não existir.
             function montar_textos()
             {
-
-               $sql = "CREATE TABLE IF NOT EXISTS `textos` (
-                      `ID` int(11) NOT NULL AUTO_INCREMENT,
-                      `id_pagina` int(11) NOT NULL,
-                      `posicao` varchar(200) NOT NULL DEFAULT '',
-                      `tipo` int(11) NOT NULL DEFAULT '0',
-                      `texto` text NOT NULL,
-                      `traducao` text,
-                      PRIMARY KEY (`ID`)
-                    ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Table with abuse reports' AUTO_INCREMENT=1;";
-
-                $this->sql_comando($sql);
+               $campos_valores =  array("`id_pagina` int(11) NOT NULL","`posicao` varchar(200) NOT NULL DEFAULT ''", "`tipo` int(11) NOT NULL DEFAULT '0'","`texto` text NOT NULL","`traducao` text");        
+               $this->sql_criar_tabela('textos', $campos_valores);
             }
 
 
@@ -54,7 +29,7 @@
                 $campos = array('texto');
 
                 //campos que o select deve filtar
-                $where = array('id_pagina' => $this->id_pagina,'posicao'=> $posicao,'tipo'=>$tipo);
+                $where = array('id_pagina' => self::$id_pagina,'posicao'=> $posicao,'tipo'=>$tipo);
 
                 //funcao que recebe *( nome da tabela , campos trazidos , campos filtrados )
                 $select_texto = $this->sql_select_otimizado('textos',$campos,$where);
@@ -65,7 +40,7 @@
                 {
 
                     $campos_textos = array(
-                        'id_pagina' =>$this->id_pagina,
+                        'id_pagina' =>self::$id_pagina,
                         'posicao' =>$posicao,
                         'tipo' =>$tipo,
                         'texto' =>$texto,
@@ -101,62 +76,33 @@
             }
 
 
-
             //esta funcao substituira o post
-            private function mod_texto_editar($dados)
-            {
-                foreach($dados as $chave =>$val)
-                {
-                   $this->mod_texto_update($chave,$val);
-                }
-
-            }
-
-            //lista plugins que usam textos na pagina
-            public function mod_text_lista_plugin($prefixo_plugin)
-            {
-
-                $array = array();
-
-                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$this->id_pagina' GROUP BY posicao");
-
-                while( $row1 = mysql_fetch_array($sql) )
-                {
-                    $pos = explode('_', $row1['posicao']);
-
-                    $novo = $pos[0].'_'.$pos[1];
-
-                    if($prefixo_plugin == $novo)
-                    {
-                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos','icone'=>'','prev'=>$row1['texto']);
-                    }
-
-                }
-
-                return $array;
-           }
-
+//            private function mod_texto_editar($dados)
+//            {
+//                foreach($dados as $chave =>$val)
+//                {
+//                   $this->mod_texto_update($chave,$val);
+//                }
+//            }
 
             //mod texto lista textos
-            public function mod_text_lista()
+            public function lista()
             {
-
+                
                 $array = array();
 
-                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$this->id_pagina' GROUP BY posicao");
+                $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='".self::$id_pagina."' GROUP BY posicao");
 
                 while( $row1 = mysql_fetch_array($sql) )
                 {
-                    $pos = explode('_', $row1['posicao']);
-
-                    $novo = $pos[0].'_';
-
-                    if("PLUGIN_" != $novo)
-                    {
-                       $array[] = array('ID'=>$row1['ID'],'posicao'=>$row1['posicao'],'editar'=>'textos','icone'=>$this->icone,'prev'=>$row1['texto']);
-                    }
-                }
-
+                    $obj = new obj_base();
+                    $obj->id = $row1['ID'];
+                    $obj->posicao = $row1['posicao'];
+                    $obj->editar = 'textos';
+                    $obj->icone = $this->icone;
+                    $obj->prev = $row1['texto'];
+                    $array[] = $obj;   
+                } 
                 return $array;
 
            }
@@ -198,7 +144,7 @@
 
            function backend($id_texto,$obj = null)
            {
-                $id_pagina = $this->id_pagina;
+                $id_pagina = self::$id_pagina;
 
                 if(!empty($obj))
                 {
@@ -206,9 +152,9 @@
                     {
                         $this->mod_texto_update($key,$value);
                     }
+                    
+                    echo self::menssagem("<strong>Atualizado</strong> com sucesso !", 'sucesso');
                 }
-
-
 
                 $campos = array('posicao');
 
@@ -225,80 +171,11 @@
 
                 $formulario = self::campo_form($select_texto2);
 
-
-
-
-
-
-/*
-                foreach ($select_texto2 as $select)
-                {
-                   echo $this->campo_form($select["tipo"],$select["texto"],$select["ID"]);
-                   echo "<br>";
-                }
-
-
-
-              $sql = mysql_query("SELECT * FROM textos WHERE id_pagina='$id_pagina' GROUP BY posicao");
-
-                while( $row1 = mysql_fetch_array($sql) )
-                {
-                  $sql2 = mysql_query("SELECT * FROM textos WHERE posicao='".$row1['posicao']."' ORDER BY tipo DESC");
-                    while($row = mysql_fetch_array($sql2))
-                    {
-
-                        if($ini_pocicao)
-                        {
-                            $pos = explode('_', $row1['posicao']);
-
-                            $novo = $pos[0].'_'.$pos[1];
-
-                            if($novo == $ini_pocicao)
-                            {
-                                echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
-
-                                echo "<br>";
-                            }
-
-                        }
-                        else
-                        {
-
-                            echo $this->campo_form($row["tipo"],$row["texto"],$row["ID"]);
-
-                            echo "<br>";
-                        }
-                    }
-                }*/
-
-            return $formulario;
+                return $formulario;
             }
 
-
-            function traducao($id_do_texto)
-            {
-                 //le o jason com as traduçoes e altera
-                //ainda falta definir habilita e desabilita
-            }
 }
 
-
-//////////////// + F R O N T + /////////////////////////////
-//  este echo cria e mostra o campo no front do site     //
-//                                                      //
-///////////mod_texto('id da pagina','nome do local','tipos[0,1,2]','texto passado')/////
-//echo $bol->mod_texto('23','CAMPO_MENU_1','1','String','{"pt":"texto"}');///
-//---------------------------------------------------////
-
-
-///////////////// + B A C K + ///////////////////////
-//                                                //
-// esta funcao cria um formulario                //
-//  com os campos para serem editados.          //
-//                                             //
-//////mod_texto_backend('id da pagina')//////////////
-//$bol->mod_texto_backend('23');//////////////////////
-//---------------------------------------------////
 
 ?>
 
